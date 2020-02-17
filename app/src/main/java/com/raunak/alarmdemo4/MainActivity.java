@@ -6,10 +6,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.view.View;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.raunak.alarmdemo4.Recievers.AlarmReceiver;
 
 public class MainActivity extends AppCompatActivity {
 
