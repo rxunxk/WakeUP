@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">Wake UP!</string>
+    <string name="hintNAME">Alarm Name</string>
+    <string name="txtColon">:</string>
+    <string name="edtAlarmName">Alarm Label</string>
+    <string name="btnRepeat">Repeat</string>
+    <string name="btnMode">Mode</string>
+    <string name="edtLabel">Alarm name</string>
+    <string name="btnSave">Save</string>
+    <string name="txtMinutes">00</string>
+    <string name="txtNoInternet">Oops, No Internet Connection</string>
+    <string name="txtNoNetDescription">Make sure wifi or cellular data is turned on and then try again</string>
+    <string name="btnTryAgin">TRY AGAIN</string>
+    <string name="txtHours">00</string>
+    <string name="txtRepeat">SUN, MON, TUE, WED, THU, FRI, SAT</string>
+    <string name="txtMode">E</string>
+    <string name="txtName">name</string>
+    <string name="txtPipe">|</string>
+    <string name="btnLabel">Alarm name</string>
+    <string name="zero">0</string>
+    <string name="txtNoData">:( No Alarms!</string>
+    <string name="easy">Easy</string>
+    <string name="regular">Regular</string>
+    <string name="difficult">Difficult</string>
+    <string name="navAlarm">Alarm</string>
+    <string name="navWeather">Weather</string>
+    <string name="navNews">News</string>
+    <string name="txtEmpty">No Alarms Added!</string>
+    <string-array name="days">
+        <item>SUN</item>
+        <item>MON</item>
+        <item>TUE</item>
+        <item>WED</item>
+        <item>THU</item>
+        <item>FRI</item>
+        <item>SAT</item>
+    </string-array>
+    <string-array name="modes">
+        <item>Easy</item>
+        <item>Regular</item>
+        <item>Difficult</item>
+    </string-array>
+</resources>

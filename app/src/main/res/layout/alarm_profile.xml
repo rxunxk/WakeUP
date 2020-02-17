@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+
+        <TextView
+            android:id="@+id/txtHOUR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/txtHours"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toTopOf="@+id/txtRepeatDays"
+            app:layout_constraintEnd_toStartOf="@+id/txtColon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtColon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:text="@string/txtColon"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toTopOf="@+id/txtRepeatDays"
+            app:layout_constraintEnd_toStartOf="@+id/txtMins"
+            app:layout_constraintStart_toEndOf="@+id/txtHOUR"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtMins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/txtMinutes"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toTopOf="@+id/txtRepeatDays"
+            app:layout_constraintStart_toEndOf="@+id/txtColon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtPipe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="24dp"
+            android:text="@string/txtPipe"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/txtRepeatDays"
+            app:layout_constraintStart_toEndOf="@+id/txtMins" />
+
+        <TextView
+            android:id="@+id/txtName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginBottom="24dp"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/txtName"
+            android:textSize="14sp"
+            android:textStyle="normal|italic"
+            app:layout_constraintBottom_toTopOf="@+id/txtRepeatDays"
+            app:layout_constraintStart_toEndOf="@+id/txtPipe" />
+
+        <TextView
+            android:id="@+id/txtRepeatDays"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/txtRepeat"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/txtMode"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/circular_background"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="casual"
+            android:foregroundGravity="center"
+            android:gravity="center"
+            android:text="@string/txtMode"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/onoff"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.444" />
+
+        <Switch
+            android:id="@+id/onoff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:textColorHighlight="#cfd8e6"
+            android:textColorLink="#76a6ef"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.412"
+            android:theme="@style/SCBSwitch"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="249dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

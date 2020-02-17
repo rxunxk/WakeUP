@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout404"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/img404"
+            android:layout_width="100sp"
+            android:layout_height="100sp"
+            android:contentDescription="@string/txtEmpty"
+            android:src="@drawable/error_404"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:id="@+id/txtNoNet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="@string/txtNoInternet"
+            android:textAlignment="center"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtNoNetDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/roboto"
+            android:text="@string/txtNoNetDescription"
+            android:textAlignment="center"
+            android:textSize="17sp" />
+
+        <Button
+            android:id="@+id/btnTryAgain"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/button_bg_rounded_corners"
+            android:text="@string/btnTryAgin"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
+</RelativeLayout>
