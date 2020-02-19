@@ -45,7 +45,7 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
 
     private static final int SYSTEM_ALERT_WINDOW_CODE = 100;
 
-    private FloatingActionButton mAlarmAddButton;
+    private FloatingActionButton mAlarmAddButton,fab_button_1,fab_button_2;
     private SQLiteDatabase db;
     private AlarmsDBhelperClass mAlarmsDBhelperClass;
     private ArrayList<Integer> requestCodes = new ArrayList<>();
@@ -79,6 +79,8 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
         //Initializing RecyclerView, DatabaseHelperClass, FAB button, The ON OFF switch & the empty ImageView
         mAlarmsDBhelperClass = new AlarmsDBhelperClass(getContext());
         mAlarmAddButton = getView().findViewById(R.id.btnAlarmADD);
+        fab_button_1 = getView().findViewById(R.id.fab_button1);
+        fab_button_2 = getView().findViewById(R.id.fab_button2);
         RecyclerView recyclerView = getView().findViewById(R.id.alarmList);
         ImageView emptyImageView = getView().findViewById(R.id.empty_view);
         SwipeRefreshLayout swipeRefreshLayout = getView().findViewById(R.id.swipeRefreshLayout);
@@ -131,14 +133,18 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
 
                 if (dy >0) {
                     // Scroll Down
-                    if (mAlarmAddButton.isShown()) {
-                        mAlarmAddButton.hide();
+                    if (fab_button_1.isShown()) {
+                        fab_button_1.hide();
+                        /*fab_button_2.hide();
+                        mAlarmAddButton.hide();*/
                     }
                 }
                 else if (dy <0) {
                     // Scroll Up
-                    if (!mAlarmAddButton.isShown()) {
-                        mAlarmAddButton.show();
+                    if (!fab_button_1.isShown()) {
+                        fab_button_1.show();
+                        /*fab_button_2.show();
+                        mAlarmAddButton.show();*/
                     }
                 }
             }
@@ -294,10 +300,7 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
     }
 
     private void setType() {
-        FloatingActionButton fab_button_1 = getView().findViewById(R.id.fab_button1);
-        FloatingActionButton fab_button_2 = getView().findViewById(R.id.fab_button2);
-        FloatingActionButton fab_button_3 = getView().findViewById(R.id.btnAlarmADD);
-        mFab = new MFabButtons(getContext(), fab_button_1, fab_button_2, fab_button_3);
+        mFab = new MFabButtons(getContext(), fab_button_1, fab_button_2, mAlarmAddButton);
     }
 
     @Override
