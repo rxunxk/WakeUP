@@ -1,11 +1,13 @@
 package com.raunak.alarmdemo4.Fragments;
 
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -21,6 +23,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -38,7 +41,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
 
+@SuppressWarnings("MagicConstant")
 public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,TimePickerDialog.OnTimeSetListener{
+
+    private static final int SYSTEM_ALERT_WINDOW_CODE = 100;
 
     private FloatingActionButton mAlarmAddButton;
     private SQLiteDatabase db;
@@ -62,6 +68,12 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        /*checkPermission(Manifest.permission.SYSTEM_ALERT_WINDOW,SYSTEM_ALERT_WINDOW_CODE);*/
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.SYSTEM_ALERT_WINDOW) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[] {Manifest.permission.SYSTEM_ALERT_WINDOW},SYSTEM_ALERT_WINDOW_CODE);
+            Toast.makeText(getContext(),"OK",Toast.LENGTH_SHORT).show();
+        }
 
         //Initializing RecyclerView, DatabaseHelperClass, FAB button, The ON OFF switch & the empty ImageView
         mAlarmsDBhelperClass = new AlarmsDBhelperClass(getContext());
