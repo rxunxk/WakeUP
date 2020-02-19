@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.arbelkilani.clock.Clock;
+import com.arbelkilani.clock.enumeration.ClockType;
 import com.ebanx.swipebtn.OnStateChangeListener;
 import com.ebanx.swipebtn.SwipeButton;
 import com.raunak.alarmdemo4.R;
@@ -16,6 +18,7 @@ import com.raunak.alarmdemo4.R;
 public class SnoozeActivity extends AppCompatActivity {
 
     SwipeButton btnSwipe;
+    Clock mClock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +26,7 @@ public class SnoozeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_snooze);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         btnSwipe = findViewById(R.id.btnSwipe);
+        mClock = findViewById(R.id.clock);
 
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         final Ringtone r = RingtoneManager.getRingtone(this, notification);
@@ -34,6 +38,7 @@ public class SnoozeActivity extends AppCompatActivity {
             public void onStateChange(boolean active) {
                 r.stop();
                 Toast.makeText(getApplicationContext(), "Alarm Stopped", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }

@@ -5,6 +5,8 @@
     <color name="colorAccent">#D81B60</color>
     <color name="numberPickerText">#FFFFFF</color>
     <color name="repeatHighlight">#808080</color>
+
+    <color name="WHITE">#FFFFFF</color>
     
     <!-->Switch Colors <-->
     <color name="disable_foreground_grey"/>

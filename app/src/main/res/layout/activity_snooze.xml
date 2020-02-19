@@ -7,6 +7,14 @@
     android:background="#678791"
     tools:context=".Activities.SnoozeActivity">
 
+    <com.arbelkilani.clock.Clock
+        android:id="@+id/clock"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:numeric_format="hour_12"
+        app:values_color="@color/WHITE"
+        app:clock_type="numeric" />
+
     <com.ebanx.swipebtn.SwipeButton
         android:id="@+id/btnSwipe"
         android:layout_width="match_parent"
@@ -23,7 +31,7 @@
         app:button_top_padding="20dp"
         app:inner_text="SWIPE TO STOP THE ALARM"
         app:inner_text_bottom_padding="20dp"
-        app:inner_text_size="18sp"
+        app:inner_text_size="14sp"
         app:inner_text_top_padding="20dp" />
 
 </RelativeLayout>
