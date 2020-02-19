@@ -3,7 +3,6 @@ package com.raunak.alarmdemo4.Recievers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import com.raunak.alarmdemo4.Activities.ScreenShake;
 import com.raunak.alarmdemo4.Activities.SnoozeActivity;
 
 public class AlarmReceiver extends BroadcastReceiver {
