@@ -41,7 +41,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
 
-@SuppressWarnings("MagicConstant")
 public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,TimePickerDialog.OnTimeSetListener{
 
     private static final int SYSTEM_ALERT_WINDOW_CODE = 100;
@@ -58,6 +57,8 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
     private ArrayList<String> status = new ArrayList<>();
     private AlarmAdapter alarmAdapter = new AlarmAdapter(hoursArrayList,minArrayList,modeArrayList,repeatArrayList,nameArrayList,status,this);
     private MFabButtons mFab;
+    private int quickHour;
+    private int quickMin;
 
     @Nullable
     @Override
@@ -259,13 +260,10 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
         if (!isQuick) {
             //Getting a System service for the alarm to check the current time with the Alarm set time.
             AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-
             //Creating an intent to invoke the onReceive method  in the custom receiver class, just to display notifications.
             Intent intent = new Intent(getContext(), AlarmReceiver.class);
-
             //A pending intent is used to execute some work in the future with our applications permissions.
             PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(),requestCodes.get(position),intent,0);
-
             //Now RTC_WAKEUP means if the device is Switched off turn it on.
             //getTimeInMillis() will get get the time in Milliseconds
             //Schedule an alarm to be delivered precisely at the stated time.In my case it's the calendar's getTimeMillis() method. which is providing the correct time in milliseconds.
@@ -304,7 +302,8 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-        Log.d("msgg","I'm here");
+        quickHour = hour;
+        quickMin = minute;
         Calendar c = Calendar.getInstance();
         c.set(Calendar.HOUR_OF_DAY, hour);
         c.set(Calendar.MINUTE, minute);

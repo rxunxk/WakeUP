@@ -4,13 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#678791"
     tools:context=".Activities.SnoozeActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/snooze_back_1"
+        android:contentDescription="back_Image" />
 
     <com.arbelkilani.clock.Clock
         android:id="@+id/clock"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:numeric_format="hour_12"
         app:values_color="@color/WHITE"
         app:clock_type="numeric" />

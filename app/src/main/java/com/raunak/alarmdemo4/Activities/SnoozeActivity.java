@@ -3,6 +3,7 @@ package com.raunak.alarmdemo4.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.Ringtone;
@@ -10,11 +11,11 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
-
 import com.arbelkilani.clock.Clock;
 import com.arbelkilani.clock.enumeration.ClockType;
 import com.ebanx.swipebtn.OnStateChangeListener;
 import com.ebanx.swipebtn.SwipeButton;
+import com.raunak.alarmdemo4.Fragments.HomeFragment;
 import com.raunak.alarmdemo4.HelperClasses.AlarmsDBhelperClass;
 import com.raunak.alarmdemo4.R;
 import com.raunak.alarmdemo4.Recievers.AlarmReceiver;
@@ -28,6 +29,7 @@ public class SnoozeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_snooze);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -46,12 +48,11 @@ public class SnoozeActivity extends AppCompatActivity {
             public void onStateChange(boolean active) {
                 r.stop();
                 Toast.makeText(getApplicationContext(), "Alarm Stopped", Toast.LENGTH_SHORT).show();
+                ContentValues values = new ContentValues();
+                values.put("status","OFF");
+                db.update("alarms",values,"alarm_mode=?",new String[]{"⚡"});
                 finish();
             }
         });
-
-        ContentValues values = new ContentValues();
-        values.put("status","OFF");
-        db.update("alarms",values,"alarm_mode=?",new String[]{"⚡"});
     }
 }

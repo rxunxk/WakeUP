@@ -10,8 +10,13 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
+
+import com.raunak.alarmdemo4.Fragments.HomeFragment;
 import com.raunak.alarmdemo4.HelperClasses.ShakeDetector;
+import com.raunak.alarmdemo4.MainActivity;
 import com.raunak.alarmdemo4.R;
+
+import java.util.Calendar;
 
 public class ScreenShake extends AppCompatActivity {
 
@@ -50,7 +55,11 @@ public class ScreenShake extends AppCompatActivity {
         mShakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
             @Override
             public void onShake(int count) {
+                Calendar c = Calendar.getInstance();
+
                 r.stop();
+                //HomeFragment.hoursArrayList.indexOf();
+                finish();
             }
         });
     }
