@@ -268,6 +268,7 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
             AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
             //Creating an intent to invoke the onReceive method  in the custom receiver class, just to display notifications.
             Intent intent = new Intent(getContext(), AlarmReceiver.class);
+            intent.putExtra("mode",modeArrayList.get(position));
             //A pending intent is used to execute some work in the future with our applications permissions.
             PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(),requestCodes.get(position),intent,0);
             //Now RTC_WAKEUP means if the device is Switched off turn it on.
@@ -277,6 +278,7 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
         } else {
             AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(getContext(), AlarmReceiver.class);
+            intent.putExtra("mode","quick");
             PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(),requestCode,intent,0);
             alarmManager.setExact(AlarmManager.RTC_WAKEUP,c.getTimeInMillis(),pendingIntent);
         }
