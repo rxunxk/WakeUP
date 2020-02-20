@@ -274,7 +274,6 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
             //getTimeInMillis() will get get the time in Milliseconds
             //Schedule an alarm to be delivered precisely at the stated time.In my case it's the calendar's getTimeMillis() method. which is providing the correct time in milliseconds.
             alarmManager.setExact(AlarmManager.RTC_WAKEUP,c.getTimeInMillis(),pendingIntent);
-            Log.d("meme",""+c.getTimeInMillis());
         } else {
             AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(getContext(), AlarmReceiver.class);
