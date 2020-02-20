@@ -2,6 +2,8 @@
     <string name="app_name">Wake UP!</string>
     <string name="hintNAME">Alarm Name</string>
     <string name="txtColon">:</string>
+    <string name="txtShake">Shake the device for 8seconds the stop the alarm</string>
+    <string name="cntTxt">Shake device image</string>
     <string name="edtAlarmName">Alarm Label</string>
     <string name="btnRepeat">Repeat</string>
     <string name="btnMode">Mode</string>

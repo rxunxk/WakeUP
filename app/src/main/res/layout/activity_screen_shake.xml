@@ -3,16 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#90CAF9"
+    android:background="#E8F5E9"
     tools:context=".Activities.ScreenShake">
 
+    <ImageView
+        android:id="@+id/imgShake"
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:layout_marginTop="20dp"
+        android:contentDescription="@string/cntTxt"
+        android:src="@drawable/shake_device" />
+
     <TextView
-        android:id="@+id/textView"
+        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Shake the device to stop the alarm"
+        android:layout_below="@+id/imgShake"
+        android:text="@string/txtShake"
         android:textAlignment="center"
-        android:textColor="#5E35B1"
         android:textSize="30sp" />
+
 </RelativeLayout>

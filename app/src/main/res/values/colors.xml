@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#76a6ef</color>
     <color name="colorPrimaryDark">#91b1e7</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorAccent">#76a6ef</color>
     <color name="numberPickerText">#FFFFFF</color>
     <color name="repeatHighlight">#808080</color>
 
