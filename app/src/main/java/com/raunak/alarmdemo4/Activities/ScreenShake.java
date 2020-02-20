@@ -10,29 +10,25 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
-
-import com.raunak.alarmdemo4.Fragments.HomeFragment;
-import com.raunak.alarmdemo4.HelperClasses.ShakeDetector;
-import com.raunak.alarmdemo4.MainActivity;
+import com.raunak.alarmdemo4.HelperClasses.ShakeEventListener;
 import com.raunak.alarmdemo4.R;
-
-import java.util.Calendar;
 
 public class ScreenShake extends AppCompatActivity {
 
     private SensorManager mSensorManager;
-    private Sensor mAccelerometer;
-    private ShakeDetector mShakeDetector;
+    private ShakeEventListener mSensorListener;
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        mSensorManager.registerListener(mShakeDetector, mAccelerometer,	SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(mSensorListener,
+                mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_UI);
     }
 
     @Override
     protected void onPause() {
-        mSensorManager.unregisterListener(mShakeDetector);
+        mSensorManager.unregisterListener(mSensorListener);
         super.onPause();
     }
 
@@ -49,16 +45,12 @@ public class ScreenShake extends AppCompatActivity {
 
         // ShakeDetector initialization
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mAccelerometer = mSensorManager
-                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mShakeDetector = new ShakeDetector();
-        mShakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
+        mSensorListener = new ShakeEventListener();
+        mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
             @Override
-            public void onShake(int count) {
-                Calendar c = Calendar.getInstance();
-
+            public void onShake() {
                 r.stop();
-                //HomeFragment.hoursArrayList.indexOf();
+                Toast.makeText(getApplicationContext(),"Alarm Stopped!",Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
