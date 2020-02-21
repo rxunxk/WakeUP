@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Sensor;
@@ -12,6 +13,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.raunak.alarmdemo4.HelperClasses.AlarmsDBhelperClass;
@@ -48,6 +50,9 @@ public class ScreenShake extends AppCompatActivity {
         getSupportActionBar().hide();
         mBhelperClass = new AlarmsDBhelperClass(this);
         db= mBhelperClass.getWritableDatabase();
+        Intent intent = getIntent();
+        final String mode = intent.getStringExtra("mode");
+        Log.d("tggg",""+mode);
 
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         final Ringtone r = RingtoneManager.getRingtone(this, notification);
@@ -63,7 +68,7 @@ public class ScreenShake extends AppCompatActivity {
                 r.stop();
                 ContentValues values = new ContentValues();
                 values.put("status","OFF");
-                db.update("alarms",values,"alarm_mode=?",new String[]{"⚡"});
+                db.update("alarms",values,"alarm_mode=?",new String[]{mode});
                 Toast.makeText(getApplicationContext(),"Alarm Stopped!",Toast.LENGTH_SHORT).show();
                 finish();
             }
