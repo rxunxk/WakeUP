@@ -74,11 +74,16 @@
                   android:text="@string/btnMode" />
 
               <Button
+                  android:id="@+id/btnTone"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/btnTone" />
+
+              <Button
                   android:id="@+id/btnSave"
                   android:layout_width="139dp"
                   android:layout_height="wrap_content"
                   android:layout_margin="16dp"
-                  android:background="@drawable/rounded_save_button"
                   android:text="@string/btnSave"
                   android:textColor="#1E5631"
                   android:textSize="20sp" />

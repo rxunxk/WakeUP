@@ -28,6 +28,8 @@
     <string name="navWeather">Weather</string>
     <string name="navNews">News</string>
     <string name="txtEmpty">No Alarms Added!</string>
+    <string name="txtSongs">SongName</string>
+    <string name="btnTone">Alarm Tone</string>
     <string-array name="days">
         <item>SUN</item>
         <item>MON</item>

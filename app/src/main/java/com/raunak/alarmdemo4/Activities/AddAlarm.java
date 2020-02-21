@@ -3,6 +3,8 @@ package com.raunak.alarmdemo4.Activities;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -27,7 +29,7 @@ public class AddAlarm extends AppCompatActivity implements RepeatDialogFragment.
     AlarmsDBhelperClass helper;
     NumberPicker hourPicker;
     NumberPicker minutePicker;
-    Button btnRepeat;
+    Button btnRepeat,btnTone;
     Button btnMode;
     ArrayList<String> repeatDays, nameArrayList;
     EditText edtLabel;
@@ -50,6 +52,7 @@ public class AddAlarm extends AppCompatActivity implements RepeatDialogFragment.
         btnRepeat = findViewById(R.id.repeat);
         btnMode = findViewById(R.id.mode);
         edtLabel = findViewById(R.id.edtLabel);
+        btnTone = findViewById(R.id.btnTone);
         btnSave = findViewById(R.id.btnSave);
         hourPicker.setMaxValue(23);
         hourPicker.setMinValue(0);
@@ -111,6 +114,14 @@ public class AddAlarm extends AppCompatActivity implements RepeatDialogFragment.
                 DialogFragment radioChoice = new ModeDialog();
                 radioChoice.setCancelable(false);
                 radioChoice.show(getSupportFragmentManager(), "Modes Dialog");
+            }
+        });
+
+        btnTone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),RingtoneSelector.class);
+                startActivity(intent);
             }
         });
 
