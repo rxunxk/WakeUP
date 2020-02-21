@@ -8,7 +8,6 @@ import android.widget.Filterable;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.raunak.alarmdemo4.Interfaces.SongSelectorInterface;
 import com.raunak.alarmdemo4.R;
 import java.util.ArrayList;

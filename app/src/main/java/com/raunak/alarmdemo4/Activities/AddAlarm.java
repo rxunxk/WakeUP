@@ -1,5 +1,6 @@
 package com.raunak.alarmdemo4.Activities;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -18,6 +19,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+
+import com.raunak.alarmdemo4.Fragments.HomeFragment;
 import com.raunak.alarmdemo4.Fragments.ModeDialog;
 import com.raunak.alarmdemo4.Fragments.RepeatDialogFragment;
 import com.raunak.alarmdemo4.HelperClasses.AlarmsDBhelperClass;
@@ -35,7 +38,7 @@ public class AddAlarm extends AppCompatActivity implements RepeatDialogFragment.
     EditText edtLabel;
     Button btnSave;
     //variables for storing values in the database
-    String name, mode, repeat;
+    String name, mode, repeat,songName;
     int hours, mins;
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
@@ -121,7 +124,7 @@ public class AddAlarm extends AppCompatActivity implements RepeatDialogFragment.
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),RingtoneSelector.class);
-                startActivity(intent);
+                startActivityForResult(intent,3);
             }
         });
 
@@ -137,10 +140,21 @@ public class AddAlarm extends AppCompatActivity implements RepeatDialogFragment.
                 repeat = String.valueOf(sb);
                 hours = hourPicker.getValue();
                 mins = minutePicker.getValue();
-                helper.insertAlarm(name, mode, repeat, hours, mins,"ON",0, db);
+                helper.insertAlarm(name, mode, repeat,songName, hours, mins,"ON",0, db);
+                HomeFragment.SONG_NAME = songName;
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 3) {
+            if (resultCode == RESULT_OK) {
+                songName = data.getStringExtra("SongName");
+            }
+        }
     }
 
     @Override

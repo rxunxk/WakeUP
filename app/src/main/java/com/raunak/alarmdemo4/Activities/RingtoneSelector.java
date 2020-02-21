@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -119,6 +120,9 @@ public class RingtoneSelector extends AppCompatActivity implements SongSelectorI
 
     @Override
     public void onItemClick(int position) {
-        Toast.makeText(getApplicationContext(),"Item Clicked",Toast.LENGTH_SHORT).show();
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("SongName",arrayList.get(position));
+        setResult(RESULT_OK,resultIntent);
+        finish();
     }
 }

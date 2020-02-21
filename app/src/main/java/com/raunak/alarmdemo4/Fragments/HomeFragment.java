@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.raunak.alarmdemo4.Activities.RingtoneSelector;
 import com.raunak.alarmdemo4.Adapters.AlarmAdapter;
 import com.raunak.alarmdemo4.HelperClasses.AlarmsDBhelperClass;
 import com.raunak.alarmdemo4.HelperClasses.MFabButtons;
@@ -41,10 +42,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
 
+import static android.app.Activity.RESULT_OK;
+
 public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,TimePickerDialog.OnTimeSetListener{
 
+    public static String SONG_NAME;
     private static final int SYSTEM_ALERT_WINDOW_CODE = 100;
-
+    private final int FRAGMENT_HOME_REQUEST_CODE =1;
     private FloatingActionButton mAlarmAddButton,fab_button_1,fab_button_2;
     private SQLiteDatabase db;
     private AlarmsDBhelperClass mAlarmsDBhelperClass;
@@ -59,6 +63,8 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
     private MFabButtons mFab;
     private int quickHour;
     private int quickMin;
+    private String songName;
+    private Calendar c;
 
     @Nullable
     @Override
@@ -123,6 +129,10 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
             @Override
             public void onClick(View view) {
                 timePicker.show(getChildFragmentManager(),null);
+                Intent intent = new Intent(getContext(), RingtoneSelector.class);
+                startActivityForResult(intent,FRAGMENT_HOME_REQUEST_CODE);
+                mAlarmsDBhelperClass.insertAlarm("","⚡","",SONG_NAME,quickHour,quickMin,"ON",0,db);
+                startAlarm(c,0,true,quickHour+quickMin+1);
             }
         });
 
@@ -154,6 +164,15 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(alarmAdapter);
         recyclerView.setHasFixedSize(true);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == 1){
+            if (resultCode == RESULT_OK){
+                songName = data.getStringExtra("SongName");
+            }
+        }
     }
 
     @Override
@@ -308,11 +327,10 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
         quickHour = hour;
         quickMin = minute;
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, hour);
-        c.set(Calendar.MINUTE, minute);
-        c.set(Calendar.SECOND, 0);
-        mAlarmsDBhelperClass.insertAlarm("","⚡","",hour,minute,"ON",0,db);
-        startAlarm(c,0,true,hour+minute+1);
+        Calendar c1 = Calendar.getInstance();
+        c1.set(Calendar.HOUR_OF_DAY, hour);
+        c1.set(Calendar.MINUTE, minute);
+        c1.set(Calendar.SECOND, 0);
+        c = c1;
     }
 }

@@ -5,14 +5,17 @@ import android.content.Intent;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.raunak.alarmdemo4.Activities.AddAlarm;
+import com.raunak.alarmdemo4.Fragments.HomeFragment;
 import com.raunak.alarmdemo4.Fragments.TimePickerFragment;
 import com.raunak.alarmdemo4.MainActivity;
 
-public class MFabButtons {
+public class MFabButtons extends HomeFragment {
+    private final int ADD_ALARM_REQUEST_CODE =2;
     private FloatingActionButton fab_button_1, fab_button_2, fab_button_3, fab_button_4;
     private OvershootInterpolator overshootInterpolator = new OvershootInterpolator();
     private int fabTranslationY = 100;
@@ -51,7 +54,7 @@ public class MFabButtons {
             public void onClick(View v) {
                 menuCheck();
                 Intent mIntent = new Intent(context, AddAlarm.class);
-                context.startActivity(mIntent);
+                startActivityForResult(mIntent, ADD_ALARM_REQUEST_CODE);
             }
         });
     }

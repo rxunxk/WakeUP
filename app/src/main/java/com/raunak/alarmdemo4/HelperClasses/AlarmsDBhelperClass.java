@@ -3,10 +3,7 @@ package com.raunak.alarmdemo4.HelperClasses;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import java.io.File;
 
 public class AlarmsDBhelperClass extends SQLiteOpenHelper {
 
@@ -26,7 +23,7 @@ public class AlarmsDBhelperClass extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String drop_table_if_exits = "DROP TABLE IF EXISTS alarms;";
         sqLiteDatabase.execSQL(drop_table_if_exits);
-        String alarm_table_sql = "CREATE TABLE alarms(alarm_id INTEGER PRIMARY KEY,alarm_name TEXT, alarm_mode TEXT, alarm_repeat TEXT,hours INTEGER,minutes INTEGER,status TEXT,user_id TEXT)";
+        String alarm_table_sql = "CREATE TABLE alarms(alarm_id INTEGER PRIMARY KEY,alarm_name TEXT, alarm_mode TEXT, alarm_repeat TEXT, alarm_music TEXT,hours INTEGER,minutes INTEGER,status TEXT,user_id TEXT)";
         sqLiteDatabase.execSQL(alarm_table_sql);
     }
 
@@ -34,11 +31,12 @@ public class AlarmsDBhelperClass extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
     }
 
-    public void insertAlarm(String alarmName, String alarmMode, String alarmRepeat, int hours, int minutes, String status, int userId, SQLiteDatabase db) {
+    public void insertAlarm(String alarmName, String alarmMode, String alarmRepeat,String alarmMusic, int hours, int minutes, String status, int userId, SQLiteDatabase db) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("alarm_name", alarmName);
         contentValues.put("alarm_mode", alarmMode);
         contentValues.put("alarm_repeat", alarmRepeat);
+        contentValues.put("alarm_music",alarmMusic);
         contentValues.put("hours", hours);
         contentValues.put("minutes", minutes);
         contentValues.put("status", status);
