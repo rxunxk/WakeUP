@@ -2,8 +2,10 @@ package com.raunak.alarmdemo4.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
@@ -13,25 +15,26 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
-
 import com.raunak.alarmdemo4.Adapters.SongsAdapter;
 import com.raunak.alarmdemo4.R;
-
 import java.util.ArrayList;
 
 public class RingtoneSelector extends AppCompatActivity {
     private final int MY_PERMISSION_REQUEST = 1;
     ArrayList<String> arrayList;
     RecyclerView recyclerView;
-    ArrayAdapter<String> adapter;
+    SongsAdapter songsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ringtonee_selector);
 
+        getSupportActionBar().setTitle("Alarm tone");
         if(ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
             if(ActivityCompat.shouldShowRequestPermissionRationale(RingtoneSelector.this,
@@ -47,14 +50,37 @@ public class RingtoneSelector extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.tone_menu,menu);
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView)menuItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                songsAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
+
     public void doStuff(){
         recyclerView = findViewById(R.id.songsList);
         arrayList = new ArrayList<>();
         getMusic();
-        SongsAdapter songsAdapter = new SongsAdapter(arrayList);
+        songsAdapter = new SongsAdapter(arrayList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(songsAdapter);
         recyclerView.setHasFixedSize(true);
+        //DividerItemDecoration class is used for getting a vertical line between rows of RecyclerView
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(itemDecoration);
     }
 
     public void getMusic(){
@@ -64,12 +90,12 @@ public class RingtoneSelector extends AppCompatActivity {
 
         if (cursor != null && cursor.moveToFirst()){
             int songTittle = cursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
-            int songArtist = cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
+//            int songDuration = cursor.getColumnIndex(MediaStore.Audio.Media.DURATION);
 
             do {
                 String currentTittle = cursor.getString(songTittle);
-                String currentArtist = cursor.getString(songArtist);
-                arrayList.add(currentTittle +"\n"+currentArtist);
+//                String currentDuration = cursor.getString(songDuration);
+                arrayList.add(currentTittle);
             }while (cursor.moveToNext());
         }
     }

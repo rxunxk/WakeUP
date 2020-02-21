@@ -3,19 +3,23 @@ package com.raunak.alarmdemo4.Adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.raunak.alarmdemo4.R;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongsView>{
+public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongsView> implements Filterable {
     private ArrayList<String> songsArrayList;
+    private ArrayList<String> allSongs;
 
     public SongsAdapter(ArrayList<String> song){
         this.songsArrayList = song;
+        this.allSongs = new ArrayList<>(song);
     }
 
 
@@ -34,8 +38,44 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongsView>{
 
     @Override
     public void onBindViewHolder(@NonNull SongsView holder, int position) {
-        holder.songName.setText(songsArrayList.get(position));
+        if (songsArrayList.get(position).length() > 10){
+            holder.songName.setText(songsArrayList.get(position));
+            holder.songName.setSelected(true);
+        }else {
+            holder.songName.setText(songsArrayList.get(position));
+        }
     }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+    Filter filter = new Filter(){
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            List<String> filteredList = new ArrayList<>();
+            if(constraint.toString().isEmpty())
+                filteredList.addAll(allSongs);
+            else{
+                for (String song: allSongs){
+                    if (song.toLowerCase().contains(constraint.toString().toLowerCase())){
+                        filteredList.add(song);
+                    }
+                }
+            }
+
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
+            return filterResults;
+        }
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            songsArrayList.clear();
+            songsArrayList.addAll((Collection<? extends String>) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     class SongsView extends RecyclerView.ViewHolder{
         TextView songName;
