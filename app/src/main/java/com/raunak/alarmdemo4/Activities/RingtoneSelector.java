@@ -20,10 +20,11 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import com.raunak.alarmdemo4.Adapters.SongsAdapter;
+import com.raunak.alarmdemo4.Interfaces.SongSelectorInterface;
 import com.raunak.alarmdemo4.R;
 import java.util.ArrayList;
 
-public class RingtoneSelector extends AppCompatActivity {
+public class RingtoneSelector extends AppCompatActivity implements SongSelectorInterface {
     private final int MY_PERMISSION_REQUEST = 1;
     ArrayList<String> arrayList;
     RecyclerView recyclerView;
@@ -74,7 +75,7 @@ public class RingtoneSelector extends AppCompatActivity {
         recyclerView = findViewById(R.id.songsList);
         arrayList = new ArrayList<>();
         getMusic();
-        songsAdapter = new SongsAdapter(arrayList);
+        songsAdapter = new SongsAdapter(arrayList,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(songsAdapter);
         recyclerView.setHasFixedSize(true);
@@ -114,5 +115,10 @@ public class RingtoneSelector extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Toast.makeText(getApplicationContext(),"Item Clicked",Toast.LENGTH_SHORT).show();
     }
 }

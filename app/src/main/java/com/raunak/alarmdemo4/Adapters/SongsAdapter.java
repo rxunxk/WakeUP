@@ -8,6 +8,8 @@ import android.widget.Filterable;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.raunak.alarmdemo4.Interfaces.SongSelectorInterface;
 import com.raunak.alarmdemo4.R;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,9 +18,11 @@ import java.util.List;
 public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongsView> implements Filterable {
     private ArrayList<String> songsArrayList;
     private ArrayList<String> allSongs;
+    SongSelectorInterface anInterface;
 
-    public SongsAdapter(ArrayList<String> song){
+    public SongsAdapter(ArrayList<String> song,SongSelectorInterface songSelectorInterfacerface){
         this.songsArrayList = song;
+        this.anInterface = songSelectorInterfacerface;
         this.allSongs = new ArrayList<>(song);
     }
 
@@ -82,6 +86,12 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongsView> i
         SongsView(@NonNull View itemView) {
             super(itemView);
             songName = itemView.findViewById(R.id.txtSong);
+            songName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    anInterface.onItemClick(getAdapterPosition());
+                }
+            });
         }
     }
 }
