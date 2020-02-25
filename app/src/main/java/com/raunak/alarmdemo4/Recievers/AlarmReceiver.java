@@ -10,13 +10,16 @@ import com.raunak.alarmdemo4.Activities.SnoozeActivity;
 import java.util.Objects;
 
 public class AlarmReceiver extends BroadcastReceiver {
-    String mode;
+    String mode,songName;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         mode = intent.getStringExtra("mode");
+        songName = intent.getStringExtra("SongName");
+
         if (mode.equals("quick")){
             Intent intent1 = new Intent(context, SnoozeActivity.class);
+            intent1.putExtra("SongName",songName);
             intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent1);
         }else {

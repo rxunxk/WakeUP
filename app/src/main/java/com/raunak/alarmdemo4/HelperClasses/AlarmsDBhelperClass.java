@@ -11,6 +11,15 @@ public class AlarmsDBhelperClass extends SQLiteOpenHelper {
     private static final String DBNAME = "AlarmsDB";
     private static final int VERSION = 1;
     public String databasePath = "";
+    public static final String ALARM_ID = "alarm_id";
+    public static final String ALARM_NAME = "alarm_name";
+    public static final String ALARM_MODE = "alarm_mode";
+    public static final String ALARM_REPEAT = "alarm_repeat";
+    public static final String ALARM_MUSIC = "alarm_music";
+    public static final String ALARM_HOURS = "hours";
+    public static final String ALARM_MINS = "mins";
+    public static final String ALARM_STATUS = "alarm_status";
+    public static final String ALARM_USERID = "user_id";
 
     //Default Constructor
     public AlarmsDBhelperClass(Context context) {
@@ -23,7 +32,15 @@ public class AlarmsDBhelperClass extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String drop_table_if_exits = "DROP TABLE IF EXISTS alarms;";
         sqLiteDatabase.execSQL(drop_table_if_exits);
-        String alarm_table_sql = "CREATE TABLE alarms(alarm_id INTEGER PRIMARY KEY,alarm_name TEXT, alarm_mode TEXT, alarm_repeat TEXT, alarm_music TEXT,hours INTEGER,minutes INTEGER,status TEXT,user_id TEXT)";
+        String alarm_table_sql = "CREATE TABLE alarms("+ALARM_ID+" INTEGER PRIMARY KEY,"
+                +ALARM_NAME+" TEXT,"
+                +ALARM_MODE+" TEXT,"
+                +ALARM_REPEAT+" TEXT,"
+                +ALARM_MUSIC+" TEXT,"
+                +ALARM_HOURS+" INTEGER,"
+                +ALARM_MINS+" INTEGER,"
+                +ALARM_STATUS+" TEXT,"
+                +ALARM_USERID+" TEXT)";
         sqLiteDatabase.execSQL(alarm_table_sql);
     }
 
@@ -33,14 +50,14 @@ public class AlarmsDBhelperClass extends SQLiteOpenHelper {
 
     public void insertAlarm(String alarmName, String alarmMode, String alarmRepeat,String alarmMusic, int hours, int minutes, String status, int userId, SQLiteDatabase db) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put("alarm_name", alarmName);
-        contentValues.put("alarm_mode", alarmMode);
-        contentValues.put("alarm_repeat", alarmRepeat);
-        contentValues.put("alarm_music",alarmMusic);
-        contentValues.put("hours", hours);
-        contentValues.put("minutes", minutes);
-        contentValues.put("status", status);
-        contentValues.put("user_id", userId);
+        contentValues.put(ALARM_NAME, alarmName);
+        contentValues.put(ALARM_MODE, alarmMode);
+        contentValues.put(ALARM_REPEAT, alarmRepeat);
+        contentValues.put(ALARM_MUSIC,alarmMusic);
+        contentValues.put(ALARM_HOURS, hours);
+        contentValues.put(ALARM_MINS, minutes);
+        contentValues.put(ALARM_STATUS, status);
+        contentValues.put(ALARM_USERID, userId);
 
         db.insert("alarms", null, contentValues);
     }

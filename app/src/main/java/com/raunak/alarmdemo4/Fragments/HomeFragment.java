@@ -2,6 +2,7 @@ package com.raunak.alarmdemo4.Fragments;
 
 import android.Manifest;
 import android.app.AlarmManager;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
@@ -10,12 +11,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -31,10 +32,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.raunak.alarmdemo4.Activities.AddAlarm;
 import com.raunak.alarmdemo4.Activities.RingtoneSelector;
 import com.raunak.alarmdemo4.Adapters.AlarmAdapter;
 import com.raunak.alarmdemo4.HelperClasses.AlarmsDBhelperClass;
-import com.raunak.alarmdemo4.HelperClasses.MFabButtons;
 import com.raunak.alarmdemo4.Interfaces.AlarmRecyclerViewListener;
 import com.raunak.alarmdemo4.R;
 import com.raunak.alarmdemo4.Recievers.AlarmReceiver;
@@ -49,8 +50,11 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
     public static String SONG_NAME;
     private static final int SYSTEM_ALERT_WINDOW_CODE = 100;
     private final int FRAGMENT_HOME_REQUEST_CODE =1;
-    private FloatingActionButton mAlarmAddButton,fab_button_1,fab_button_2;
+    private FloatingActionButton mAlarmAddButton,fab_button_1,fab_button_2,fab_button_3;
     private SQLiteDatabase db;
+    private RecyclerView recyclerView;
+    private ImageView emptyImageView;
+    private TextView txtEmpty;
     private AlarmsDBhelperClass mAlarmsDBhelperClass;
     private ArrayList<Integer> requestCodes = new ArrayList<>();
     private ArrayList<String> nameArrayList = new ArrayList<>();
@@ -60,11 +64,15 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
     private ArrayList<String> minArrayList = new ArrayList<>();
     private ArrayList<String> status = new ArrayList<>();
     private AlarmAdapter alarmAdapter = new AlarmAdapter(hoursArrayList,minArrayList,modeArrayList,repeatArrayList,nameArrayList,status,this);
-    private MFabButtons mFab;
+    private final int ADD_ALARM_REQUEST_CODE =2;
+    private OvershootInterpolator overshootInterpolator = new OvershootInterpolator();
+    private int fabTranslationY = 100;
+    private boolean isFabMenuOpen = false;
+    private int speed = 250;
     private int quickHour;
     private int quickMin;
     private String songName;
-    private Calendar c;
+    private DialogFragment timePicker;
 
     @Nullable
     @Override
@@ -75,7 +83,6 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         /*checkPermission(Manifest.permission.SYSTEM_ALERT_WINDOW,SYSTEM_ALERT_WINDOW_CODE);*/
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.SYSTEM_ALERT_WINDOW) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[] {Manifest.permission.SYSTEM_ALERT_WINDOW},SYSTEM_ALERT_WINDOW_CODE);
@@ -87,12 +94,41 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
         mAlarmAddButton = getView().findViewById(R.id.btnAlarmADD);
         fab_button_1 = getView().findViewById(R.id.fab_button1);
         fab_button_2 = getView().findViewById(R.id.fab_button2);
-        RecyclerView recyclerView = getView().findViewById(R.id.alarmList);
-        ImageView emptyImageView = getView().findViewById(R.id.empty_view);
+        recyclerView = getView().findViewById(R.id.alarmList);
+        emptyImageView = getView().findViewById(R.id.empty_view);
         SwipeRefreshLayout swipeRefreshLayout = getView().findViewById(R.id.swipeRefreshLayout);
-        TextView txtEmpty = getView().findViewById(R.id.txtEmpty);
-        final DialogFragment timePicker = new TimePickerFragment(this);
+        txtEmpty = getView().findViewById(R.id.txtEmpty);
+        timePicker = new TimePickerFragment(this);
 
+        setFabTranslationY();
+        //fab event handling
+        fab_button_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                menuCheck();
+            }
+        });
+        fab_button_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                menuCheck();
+                timePicker.show(getChildFragmentManager(),null);
+                Log.d("OKAY","timePicker executed");
+                /*Intent intent = new Intent(getContext(), RingtoneSelector.class);
+                startActivityForResult(intent,FRAGMENT_HOME_REQUEST_CODE);
+                Log.d("gg","Songs:"+songName);
+                mAlarmsDBhelperClass.insertAlarm("","⚡","",songName,quickHour,quickMin,"ON",0,db);
+                startAlarm(c,0,true,quickHour+quickMin+1);*/
+            }
+        });
+        mAlarmAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                menuCheck();
+                Intent mIntent = new Intent(getContext(), AddAlarm.class);
+                startActivityForResult(mIntent, ADD_ALARM_REQUEST_CODE);
+            }
+        });
         //DividerItemDecoration class is used for getting a vertical line between rows of RecyclerView
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(itemDecoration);
@@ -110,7 +146,6 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
                 alarmAdapter.notifyDataSetChanged();
             }
         });
-        swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#76a6ef"));
 
         //Checking if our arrayList is empty? if yes then display some empty list text or an image
         if (!isDataEmpty){
@@ -123,19 +158,6 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
             emptyImageView.setVisibility(View.GONE);
             txtEmpty.setVisibility(View.GONE);
         }
-        setType();
-        FloatingActionButton btn = getView().findViewById(R.id.fab_button2);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                timePicker.show(getChildFragmentManager(),null);
-                Intent intent = new Intent(getContext(), RingtoneSelector.class);
-                startActivityForResult(intent,FRAGMENT_HOME_REQUEST_CODE);
-                mAlarmsDBhelperClass.insertAlarm("","⚡","",SONG_NAME,quickHour,quickMin,"ON",0,db);
-                startAlarm(c,0,true,quickHour+quickMin+1);
-            }
-        });
-
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx,int dy){
@@ -186,14 +208,13 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
         boolean rowExists;
         if (cursor.moveToFirst()) {
             do {
-                requestCodes.add(cursor.getInt(cursor.getColumnIndex("alarm_id")));
-                nameArrayList.add(cursor.getString(cursor.getColumnIndex("alarm_name")));
-                modeArrayList.add(cursor.getString(cursor.getColumnIndex("alarm_mode")));
-                repeatArrayList.add(cursor.getString(cursor.getColumnIndex("alarm_repeat")));
-                hoursArrayList.add(Integer.toString(cursor.getInt(cursor.getColumnIndex("hours"))));
-                minArrayList.add(Integer.toString(cursor.getInt(cursor.getColumnIndex("minutes"))));
-                Log.d("Everything is Ok","OK");
-                status.add(cursor.getString(cursor.getColumnIndex("status")));
+                requestCodes.add(cursor.getInt(cursor.getColumnIndex(AlarmsDBhelperClass.ALARM_ID)));
+                nameArrayList.add(cursor.getString(cursor.getColumnIndex(AlarmsDBhelperClass.ALARM_NAME)));
+                modeArrayList.add(cursor.getString(cursor.getColumnIndex(AlarmsDBhelperClass.ALARM_MODE)));
+                repeatArrayList.add(cursor.getString(cursor.getColumnIndex(AlarmsDBhelperClass.ALARM_REPEAT)));
+                hoursArrayList.add(Integer.toString(cursor.getInt(cursor.getColumnIndex(AlarmsDBhelperClass.ALARM_HOURS))));
+                minArrayList.add(Integer.toString(cursor.getInt(cursor.getColumnIndex(AlarmsDBhelperClass.ALARM_MINS))));
+                status.add(cursor.getString(cursor.getColumnIndex(AlarmsDBhelperClass.ALARM_STATUS)));
                 rowExists = true;
             } while (cursor.moveToNext());
         }else {
@@ -228,6 +249,11 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
         repeatArrayList.remove(position);
         modeArrayList.remove(position);
 
+        if (hoursArrayList.isEmpty()){
+            recyclerView.setVisibility(View.GONE);
+            txtEmpty.setVisibility(View.VISIBLE);
+            emptyImageView.setVisibility(View.VISIBLE);
+        }
         //Updating the recyclerView
         alarmAdapter.notifyItemRemoved(position);
 
@@ -241,7 +267,7 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
 
         if(isStart){
             ContentValues values = new ContentValues();
-            values.put("status","ON");
+            values.put(AlarmsDBhelperClass.ALARM_STATUS,"ON");
             db.update("alarms",values,"alarm_name=?",new String[]{""+nameArrayList.get(position)});
             Calendar c = Calendar.getInstance();
             c.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hoursArrayList.get(position)));
@@ -257,7 +283,7 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
             Toast.makeText(getContext(),""+c.getTime(),Toast.LENGTH_SHORT).show();
         }else{
             ContentValues values = new ContentValues();
-            values.put("status","OFF");
+            values.put(AlarmsDBhelperClass.ALARM_STATUS,"OFF");
             db.update("alarms",values,"alarm_name=?",new String[]{""+nameArrayList.get(position)});
             if (nameArrayList.get(position).equals("")) {
                 cancelAlarm(position,true,requestCode);
@@ -288,6 +314,7 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
             //Creating an intent to invoke the onReceive method  in the custom receiver class, just to display notifications.
             Intent intent = new Intent(getContext(), AlarmReceiver.class);
             intent.putExtra("mode",modeArrayList.get(position));
+            intent.putExtra("SongName",songName);
             //A pending intent is used to execute some work in the future with our applications permissions.
             PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(),requestCodes.get(position),intent,0);
             //Now RTC_WAKEUP means if the device is Switched off turn it on.
@@ -319,18 +346,63 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
         }
     }
 
-    private void setType() {
-        mFab = new MFabButtons(getContext(), fab_button_1, fab_button_2, mAlarmAddButton);
-    }
-
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-        quickHour = hour;
-        quickMin = minute;
-        Calendar c1 = Calendar.getInstance();
-        c1.set(Calendar.HOUR_OF_DAY, hour);
-        c1.set(Calendar.MINUTE, minute);
-        c1.set(Calendar.SECOND, 0);
-        c = c1;
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY, hour);
+        c.set(Calendar.MINUTE, minute);
+        c.set(Calendar.SECOND, 0);
+        if (c.getTimeInMillis() < System.currentTimeMillis())
+            c.add(Calendar.DAY_OF_YEAR, 1);
+        Intent intent = new Intent(getContext(), RingtoneSelector.class);
+        startActivityForResult(intent,FRAGMENT_HOME_REQUEST_CODE);
+        mAlarmsDBhelperClass.insertAlarm("","⚡","",songName,hour,minute,"ON",0,db);
+        startAlarm(c,0,true,quickHour+quickMin+1);
+        alarmAdapter.notifyDataSetChanged();
+    }
+
+    private void setFabTranslationY() {
+        fab_button_2.setAlpha(0f);
+        mAlarmAddButton.setAlpha(0f);
+
+        fab_button_2.setTranslationY(fabTranslationY);
+        mAlarmAddButton.setTranslationY(fabTranslationY);
+    }
+
+    private void menuCheck() {
+        if (isFabMenuOpen) {
+            fabMenuClose();
+        } else {
+            fabMenuOpen();
+        }
+    }
+
+    private void fabMenuOpen() {
+        isFabMenuOpen = !isFabMenuOpen;
+        fabMainAnimation(true);
+        fabOpenAnimation(fab_button_2);
+        fabOpenAnimation(mAlarmAddButton);
+    }
+
+    private void fabMenuClose() {
+        isFabMenuOpen = !isFabMenuOpen;
+        fabMainAnimation(false);
+        fabCloseAnimation(fab_button_2);
+        fabCloseAnimation(mAlarmAddButton);
+    }
+    private void fabCloseAnimation(FloatingActionButton fab) {
+        fab.animate().translationY(fabTranslationY).alpha(0f).setInterpolator(overshootInterpolator).setDuration(speed).start();
+    }
+
+    private void fabOpenAnimation(FloatingActionButton fab) {
+        fab.animate().translationY(0f).alpha(1f).setInterpolator(overshootInterpolator).setDuration(speed).start();
+    }
+
+    private void fabMainAnimation(boolean isOpen) {
+        if (isOpen) {
+            fab_button_1.animate().setInterpolator(overshootInterpolator).rotation(45f).setDuration(speed).start();
+        } else {
+            fab_button_1.animate().setInterpolator(overshootInterpolator).rotation(0f).setDuration(speed).start();
+        }
     }
 }

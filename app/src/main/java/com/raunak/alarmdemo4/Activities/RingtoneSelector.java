@@ -16,6 +16,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -123,6 +124,8 @@ public class RingtoneSelector extends AppCompatActivity implements SongSelectorI
         Intent resultIntent = new Intent();
         resultIntent.putExtra("SongName",arrayList.get(position));
         setResult(RESULT_OK,resultIntent);
+        Toast.makeText(getApplicationContext(), ""+arrayList.get(position), Toast.LENGTH_SHORT).show();
+        Log.d("text",""+arrayList.get(position));
         finish();
     }
 }

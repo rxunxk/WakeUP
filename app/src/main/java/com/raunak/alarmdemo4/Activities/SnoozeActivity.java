@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -33,20 +34,23 @@ public class SnoozeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_snooze);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        Intent intent = getIntent();
+        intent.getStringExtra("SongName");
         btnSwipe = findViewById(R.id.btnSwipe);
         mClock = findViewById(R.id.clock);
         mBhelperClass = new AlarmsDBhelperClass(this);
         db= mBhelperClass.getWritableDatabase();
 
-        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+         /*Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         final Ringtone r = RingtoneManager.getRingtone(this, notification);
         r.play();
-        Toast.makeText(this, "Alarm Ringing", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Alarm Ringing", Toast.LENGTH_SHORT).show();*/
 
         btnSwipe.setOnStateChangeListener(new OnStateChangeListener() {
             @Override
             public void onStateChange(boolean active) {
-                r.stop();
+//                r.stop();
                 Toast.makeText(getApplicationContext(), "Alarm Stopped", Toast.LENGTH_SHORT).show();
                 ContentValues values = new ContentValues();
                 values.put("status","OFF");
