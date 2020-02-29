@@ -204,8 +204,11 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
     }
 
     public boolean getAlarm(SQLiteDatabase db) {
+        String alarm_delete_sql = "DELETE FROM alarms;";
+        db.execSQL(alarm_delete_sql);
         Cursor cursor = db.rawQuery("SELECT * FROM alarms", new String[]{});
         boolean rowExists;
+        Log.d("HomeFragment",""+cursor.getCount());
         if (cursor.moveToFirst()) {
             do {
                 requestCodes.add(cursor.getInt(cursor.getColumnIndex(AlarmsDBhelperClass.ALARM_ID)));
