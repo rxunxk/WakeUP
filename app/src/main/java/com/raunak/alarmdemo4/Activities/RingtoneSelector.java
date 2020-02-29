@@ -16,11 +16,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.Toast;
+import android.view.MenuItem;import android.widget.Toast;
 import com.raunak.alarmdemo4.Adapters.SongsAdapter;
 import com.raunak.alarmdemo4.Interfaces.SongSelectorInterface;
 import com.raunak.alarmdemo4.R;
@@ -28,7 +25,7 @@ import java.util.ArrayList;
 
 public class RingtoneSelector extends AppCompatActivity implements SongSelectorInterface {
     private final int MY_PERMISSION_REQUEST = 1;
-    ArrayList<String> arrayList;
+    ArrayList<String> songNameArrayList,pathArrayList;
     RecyclerView recyclerView;
     SongsAdapter songsAdapter;
 
@@ -75,9 +72,10 @@ public class RingtoneSelector extends AppCompatActivity implements SongSelectorI
 
     public void doStuff(){
         recyclerView = findViewById(R.id.songsList);
-        arrayList = new ArrayList<>();
+        songNameArrayList = new ArrayList<>();
+        pathArrayList = new ArrayList<>();
         getMusic();
-        songsAdapter = new SongsAdapter(arrayList,this);
+        songsAdapter = new SongsAdapter(songNameArrayList,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(songsAdapter);
         recyclerView.setHasFixedSize(true);
@@ -93,12 +91,13 @@ public class RingtoneSelector extends AppCompatActivity implements SongSelectorI
 
         if (cursor != null && cursor.moveToFirst()){
             int songTittle = cursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
-//            int songDuration = cursor.getColumnIndex(MediaStore.Audio.Media.DURATION);
+            int path = cursor.getColumnIndex(MediaStore.Audio.Media.DATA);
 
             do {
                 String currentTittle = cursor.getString(songTittle);
-//                String currentDuration = cursor.getString(songDuration);
-                arrayList.add(currentTittle);
+                String currentPath = cursor.getString(path);
+                songNameArrayList.add(currentTittle);
+                pathArrayList.add(currentPath);
             }while (cursor.moveToNext());
         }
     }
@@ -122,10 +121,9 @@ public class RingtoneSelector extends AppCompatActivity implements SongSelectorI
     @Override
     public void onItemClick(int position) {
         Intent resultIntent = new Intent();
-        resultIntent.putExtra("SongName",arrayList.get(position));
+        resultIntent.putExtra("SongName",pathArrayList.get(position));
         setResult(RESULT_OK,resultIntent);
-        Toast.makeText(getApplicationContext(), ""+arrayList.get(position), Toast.LENGTH_SHORT).show();
-        Log.d("text",""+arrayList.get(position));
+        Toast.makeText(getApplicationContext(), ""+pathArrayList.get(position), Toast.LENGTH_SHORT).show();
         finish();
     }
 }
