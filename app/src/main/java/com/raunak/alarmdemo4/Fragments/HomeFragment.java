@@ -2,7 +2,6 @@ package com.raunak.alarmdemo4.Fragments;
 
 import android.Manifest;
 import android.app.AlarmManager;
-import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
@@ -71,8 +70,9 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
     private int speed = 250;
     private int quickHour;
     private int quickMin;
-    private String songName;
+    private String songPath;
     private DialogFragment timePicker;
+    private Calendar c1 = Calendar.getInstance();
 
     @Nullable
     @Override
@@ -113,12 +113,8 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
             public void onClick(View v) {
                 menuCheck();
                 timePicker.show(getChildFragmentManager(),null);
+                Log.d("good",""+songPath);
                 Log.d("OKAY","timePicker executed");
-                /*Intent intent = new Intent(getContext(), RingtoneSelector.class);
-                startActivityForResult(intent,FRAGMENT_HOME_REQUEST_CODE);
-                Log.d("gg","Songs:"+songName);
-                mAlarmsDBhelperClass.insertAlarm("","⚡","",songName,quickHour,quickMin,"ON",0,db);
-                startAlarm(c,0,true,quickHour+quickMin+1);*/
             }
         });
         mAlarmAddButton.setOnClickListener(new View.OnClickListener() {
@@ -190,9 +186,13 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == 1){
+        if (requestCode == FRAGMENT_HOME_REQUEST_CODE){
             if (resultCode == RESULT_OK){
-                songName = data.getStringExtra("SongName");
+                songPath = data.getStringExtra("SongName");
+                mAlarmsDBhelperClass.insertAlarm("","⚡","",songPath,quickHour,quickMin,"ON",0,db);
+                startAlarm(c1,0,true,quickHour+quickMin+1);
+                alarmAdapter.notifyDataSetChanged();
+                Log.d("working","song path :"+songPath);
             }
         }
     }
@@ -312,9 +312,9 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
             //Getting a System service for the alarm to check the current time with the Alarm set time.
             AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
             //Creating an intent to invoke the onReceive method  in the custom receiver class, just to display notifications.
+            Log.d("Okay",""+modeArrayList.get(position)+" "+songPath);
             Intent intent = new Intent(getContext(), AlarmReceiver.class);
             intent.putExtra("mode",modeArrayList.get(position));
-            intent.putExtra("SongName",songName);
             //A pending intent is used to execute some work in the future with our applications permissions.
             PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(),requestCodes.get(position),intent,0);
             //Now RTC_WAKEUP means if the device is Switched off turn it on.
@@ -324,13 +324,12 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
         } else {
             AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(getContext(), AlarmReceiver.class);
+            Log.d("Okay",""+songPath);
             intent.putExtra("mode","quick");
             PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(),requestCode,intent,0);
             alarmManager.setExact(AlarmManager.RTC_WAKEUP,c.getTimeInMillis(),pendingIntent);
         }
     }
-
-
 
     public void cancelAlarm(int position,boolean isQuick,int requestCode){
         if (!isQuick) {
@@ -354,11 +353,12 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
         c.set(Calendar.SECOND, 0);
         if (c.getTimeInMillis() < System.currentTimeMillis())
             c.add(Calendar.DAY_OF_YEAR, 1);
+        c1 = c;
+        quickHour = hour;
+        quickMin = minute;
         Intent intent = new Intent(getContext(), RingtoneSelector.class);
         startActivityForResult(intent,FRAGMENT_HOME_REQUEST_CODE);
-        mAlarmsDBhelperClass.insertAlarm("","⚡","",songName,hour,minute,"ON",0,db);
-        startAlarm(c,0,true,quickHour+quickMin+1);
-        alarmAdapter.notifyDataSetChanged();
+
     }
 
     private void setFabTranslationY() {
