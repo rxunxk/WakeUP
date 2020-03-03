@@ -28,7 +28,7 @@ import com.raunak.alarmdemo4.Recievers.AlarmReceiver;
 import java.io.IOException;
 import java.util.Calendar;
 
-public class SnoozeActivity extends AppCompatActivity implements OnStateChangeListener {
+public class SnoozeActivity extends AppCompatActivity{
 
     AlarmsDBhelperClass mBhelperClass;
     SQLiteDatabase db;
@@ -73,14 +73,16 @@ public class SnoozeActivity extends AppCompatActivity implements OnStateChangeLi
         }
         mp.start();
 
-    }
-    @Override
-    public void onStateChange(boolean active) {
-        mp.stop();
-        Toast.makeText(getApplicationContext(), "Alarm Stopped", Toast.LENGTH_SHORT).show();
-        ContentValues values = new ContentValues();
-        values.put("status","OFF");
-        db.update("alarms",values,"alarm_mode=?",new String[]{"⚡"});
-        finish();
+        btnSwipe.setOnStateChangeListener(new OnStateChangeListener() {
+            @Override
+            public void onStateChange(boolean active) {
+                mp.stop();
+                Toast.makeText(getApplicationContext(), "Alarm Stopped", Toast.LENGTH_SHORT).show();
+                ContentValues values = new ContentValues();
+                values.put(AlarmsDBhelperClass.ALARM_STATUS,"OFF");
+                db.update("alarms",values,""+AlarmsDBhelperClass.ALARM_HOURS+"=? AND "+AlarmsDBhelperClass.ALARM_MINS+"=?",new String[]{""+hour,""+min});
+                finish();
+            }
+        });
     }
 }
