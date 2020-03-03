@@ -3,29 +3,24 @@ package com.raunak.alarmdemo4.Recievers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
-
 import com.raunak.alarmdemo4.Activities.ScreenShake;
 import com.raunak.alarmdemo4.Activities.SnoozeActivity;
-import java.util.Objects;
 
 public class AlarmReceiver extends BroadcastReceiver {
-    String mode,songName;
+    String mode;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         mode = intent.getStringExtra("mode");
-        songName = intent.getStringExtra("SongName");
 
         if (mode.equals("quick")){
-            Intent intent1 = new Intent(context, SnoozeActivity.class);
-            intent1.putExtra("SongName",songName);
-            intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent1);
+            Intent intentQuick = new Intent(context, SnoozeActivity.class);
+            intentQuick.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intentQuick);
         }else {
-            Intent intent2 = new Intent(context, ScreenShake.class);
-            intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent2);
+            Intent intentSmart = new Intent(context, ScreenShake.class);
+            intentSmart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intentSmart);
         }
     }
 }
