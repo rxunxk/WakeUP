@@ -201,6 +201,7 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
     public void onResume() {
         super.onResume();
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        alarmAdapter.notifyDataSetChanged();
     }
 
     public boolean getAlarm(SQLiteDatabase db) {

@@ -6,9 +6,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -20,12 +22,18 @@ import com.raunak.alarmdemo4.HelperClasses.AlarmsDBhelperClass;
 import com.raunak.alarmdemo4.HelperClasses.ShakeEventListener;
 import com.raunak.alarmdemo4.R;
 
+import java.io.IOException;
+import java.util.Calendar;
+
 public class ScreenShake extends AppCompatActivity {
 
     private SensorManager mSensorManager;
     private ShakeEventListener mSensorListener;
     AlarmsDBhelperClass mBhelperClass;
     SQLiteDatabase db;
+    int hour,min;
+    MediaPlayer mp = new MediaPlayer();
+    String songPath;
 
     @Override
     protected void onPostResume() {
@@ -54,10 +62,30 @@ public class ScreenShake extends AppCompatActivity {
         final String mode = intent.getStringExtra("mode");
         Log.d("tggg",""+mode);
 
-        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        final Ringtone r = RingtoneManager.getRingtone(this, notification);
-        r.play();
-        Toast.makeText(this, "Alarm Ringing", Toast.LENGTH_SHORT).show();
+
+        Calendar c = Calendar.getInstance();
+        hour = c.get(Calendar.HOUR_OF_DAY);
+        min = c.get(Calendar.MINUTE);
+        mBhelperClass = new AlarmsDBhelperClass(this);
+        db= mBhelperClass.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT "+AlarmsDBhelperClass.MUSIC_PATH+" FROM alarms WHERE "+AlarmsDBhelperClass.ALARM_HOURS+"=? AND "+AlarmsDBhelperClass.ALARM_MINS+"=?",new String[]{""+hour,""+min});
+        if (cursor.moveToFirst()) {
+            songPath = cursor.getString(cursor.getColumnIndex(AlarmsDBhelperClass.MUSIC_PATH));
+        }else{
+            Log.d("not working!","not working!");
+        }
+        cursor.close();
+        try {
+            mp.setDataSource(songPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            mp.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mp.start();
 
         // ShakeDetector initialization
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -65,10 +93,10 @@ public class ScreenShake extends AppCompatActivity {
         mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
             @Override
             public void onShake() {
-                r.stop();
+                mp.stop();
                 ContentValues values = new ContentValues();
-                values.put("status","OFF");
-                db.update("alarms",values,"alarm_mode=?",new String[]{mode});
+                values.put(AlarmsDBhelperClass.ALARM_STATUS,"OFF");
+                db.update("alarms",values,""+AlarmsDBhelperClass.ALARM_HOURS+"=? AND "+AlarmsDBhelperClass.ALARM_MINS+"=?",new String[]{""+hour,""+min});
                 Toast.makeText(getApplicationContext(),"Alarm Stopped!",Toast.LENGTH_SHORT).show();
                 finish();
             }
