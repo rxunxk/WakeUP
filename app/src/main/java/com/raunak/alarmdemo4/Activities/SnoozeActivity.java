@@ -53,21 +53,14 @@ public class SnoozeActivity extends AppCompatActivity implements OnStateChangeLi
         mClock = findViewById(R.id.clock);
         mBhelperClass = new AlarmsDBhelperClass(this);
         db= mBhelperClass.getWritableDatabase();
-        Log.d("gaurnagSnooze",""+hour+" "+min);
-        Cursor cursor2 = db.rawQuery("SELECT musicPath FROM alarms",null);
-        Log.d("cursor2","table has "+cursor2.getCount()+" rows");
         Cursor cursor = db.rawQuery("SELECT "+AlarmsDBhelperClass.MUSIC_PATH+" FROM alarms WHERE "+AlarmsDBhelperClass.ALARM_HOURS+"=? AND "+AlarmsDBhelperClass.ALARM_MINS+"=?",new String[]{""+hour,""+min});
         Log.d("gaurnagSnooze",""+cursor.getCount());
         if (cursor.moveToFirst()) {
             songPath = cursor.getString(cursor.getColumnIndex(AlarmsDBhelperClass.MUSIC_PATH));
-            Log.d("if executed! ","songpath initialized!");
         }else{
             Log.d("not working!","not working!");
         }
         cursor.close();
-        cursor2.close();
-
-        Log.d("gaurangaSnooze","songPath : "+songPath);
         try {
             mp.setDataSource(songPath);
         } catch (IOException e) {
