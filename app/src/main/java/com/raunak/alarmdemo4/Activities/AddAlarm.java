@@ -19,12 +19,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
-
-import com.raunak.alarmdemo4.Fragments.HomeFragment;
 import com.raunak.alarmdemo4.Fragments.ModeDialog;
 import com.raunak.alarmdemo4.Fragments.RepeatDialogFragment;
 import com.raunak.alarmdemo4.HelperClasses.AlarmsDBhelperClass;
 import com.raunak.alarmdemo4.R;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class AddAlarm extends AppCompatActivity implements RepeatDialogFragment.onMultiChoiceListener, ModeDialog.radioClickListener {
@@ -46,7 +46,7 @@ public class AddAlarm extends AppCompatActivity implements RepeatDialogFragment.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_alarm);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
         helper = new AlarmsDBhelperClass(this);
         db = helper.getReadableDatabase();
@@ -140,8 +140,8 @@ public class AddAlarm extends AppCompatActivity implements RepeatDialogFragment.
                 repeat = String.valueOf(sb);
                 hours = hourPicker.getValue();
                 mins = minutePicker.getValue();
-                helper.insertAlarm(name, mode, repeat,songName, hours, mins,"ON",0, db);
-                HomeFragment.SONG_NAME = songName;
+
+                helper.insertAlarm(name, mode, repeat,songName, hours, mins,"ON","", db);
                 finish();
             }
         });

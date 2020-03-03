@@ -41,6 +41,7 @@ import com.raunak.alarmdemo4.Recievers.AlarmReceiver;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -189,10 +190,9 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
         if (requestCode == FRAGMENT_HOME_REQUEST_CODE){
             if (resultCode == RESULT_OK){
                 songPath = data.getStringExtra("SongName");
-                mAlarmsDBhelperClass.insertAlarm("","⚡","",songPath,quickHour,quickMin,"ON",0,db);
+                mAlarmsDBhelperClass.insertAlarm("","Q","",songPath,quickHour,quickMin,"ON","",db);
                 startAlarm(c1,0,true,quickHour+quickMin+1);
                 alarmAdapter.notifyDataSetChanged();
-                Log.d("working","song path :"+songPath);
             }
         }
     }
@@ -204,8 +204,6 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
     }
 
     public boolean getAlarm(SQLiteDatabase db) {
-        String alarm_delete_sql = "DELETE FROM alarms;";
-        db.execSQL(alarm_delete_sql);
         Cursor cursor = db.rawQuery("SELECT * FROM alarms", new String[]{});
         boolean rowExists;
         Log.d("HomeFragment",""+cursor.getCount());
