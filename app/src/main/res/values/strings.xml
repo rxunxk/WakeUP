@@ -30,6 +30,8 @@
     <string name="txtEmpty">No Alarms Added!</string>
     <string name="txtSongs">SongName</string>
     <string name="btnTone">Alarm Tone</string>
+    <string name="txtEmptySongs">No songs found on your local storage</string>
+    <string name="txtDefaultSongs">Default Songs List</string>
     <string-array name="days">
         <item>SUN</item>
         <item>MON</item>

@@ -75,6 +75,10 @@ public class RingtoneSelector extends AppCompatActivity implements SongSelectorI
         songNameArrayList = new ArrayList<>();
         pathArrayList = new ArrayList<>();
         getMusic();
+        songNameArrayList.add("Default song 1");
+        songNameArrayList.add("Default song 2");
+        pathArrayList.add("Default song 1");
+        pathArrayList.add("Default song2");
         songsAdapter = new SongsAdapter(songNameArrayList,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(songsAdapter);
