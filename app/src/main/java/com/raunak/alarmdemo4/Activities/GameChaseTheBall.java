@@ -12,6 +12,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -223,6 +224,32 @@ public class GameChaseTheBall extends AppCompatActivity {
         timer = null;
         changeFrameWidth(initialFrameWidth);
         startGame(getCurrentFocus());
+    }
+
+    @Override
+    public void onBackPressed() {
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
+            mp.setVolume(1.0f,1.0f);
+            return true;
+        }else if(keyCode == KeyEvent.KEYCODE_VOLUME_UP){
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+            mp.setVolume(1.0f, 1.0f);
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            return true;
+        }
+        return super.onKeyUp(keyCode,event);
     }
 
     @Override
