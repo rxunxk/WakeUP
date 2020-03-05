@@ -32,7 +32,7 @@ public class ScreenShake extends AppCompatActivity {
     AlarmsDBhelperClass mBhelperClass;
     SQLiteDatabase db;
     int hour,min;
-    MediaPlayer mp = new MediaPlayer();
+    MediaPlayer mp;
     String songPath;
 
     @Override
@@ -75,18 +75,26 @@ public class ScreenShake extends AppCompatActivity {
             Log.d("not working!","not working!");
         }
         cursor.close();
-        try {
-            mp.setDataSource(songPath);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (songPath.equals("Default song 1")){
+            mp = MediaPlayer.create(this,R.raw.alarm_tone1);
+            mp.start();
+        }else if (songPath.equals("Default song 2")){
+            mp = MediaPlayer.create(this,R.raw.alarm_tone2);
+            mp.start();
+        }else {
+            try {
+                mp = new MediaPlayer();
+                mp.setDataSource(songPath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                mp.prepare();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            mp.start();
         }
-        try {
-            mp.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        mp.start();
-
         // ShakeDetector initialization
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensorListener = new ShakeEventListener();

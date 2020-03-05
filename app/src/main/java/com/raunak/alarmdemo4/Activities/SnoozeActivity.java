@@ -8,13 +8,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 import com.arbelkilani.clock.Clock;
 import com.ebanx.swipebtn.OnStateChangeListener;
 import com.ebanx.swipebtn.SwipeButton;
 import com.raunak.alarmdemo4.HelperClasses.AlarmsDBhelperClass;
+import com.raunak.alarmdemo4.R;
+
 import java.io.IOException;
 import java.util.Calendar;
 import static com.raunak.alarmdemo4.R.*;
@@ -26,10 +27,7 @@ public class SnoozeActivity extends AppCompatActivity{
     SwipeButton btnSwipe;
     Clock mClock;
     int hour,min;
-    int flag =0;
-    MediaPlayer mp = new MediaPlayer();
-    MediaPlayer ring = new MediaPlayer();
-    MediaPlayer ring2 = new MediaPlayer();
+    MediaPlayer mp;
     String songPath;
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -55,16 +53,14 @@ public class SnoozeActivity extends AppCompatActivity{
         }
         cursor.close();
         if(songPath.equals("Default song 1")){
-            flag = 1;
-            ring = MediaPlayer.create(this,raw.alarm_tone1);
-            ring.start();
+            mp = MediaPlayer.create(this, R.raw.alarm_tone1);
+            mp.start();
         }else if (songPath.equals("Default song 2")){
-            flag = 2;
-            ring2 = MediaPlayer.create(this,raw.alarm_tone2);
-            ring2.start();
+            mp = MediaPlayer.create(this,R.raw.alarm_tone2);
+            mp.start();
         }else{
-            flag = 3;
             try {
+                mp = new MediaPlayer();
                 mp.setDataSource(songPath);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -80,13 +76,7 @@ public class SnoozeActivity extends AppCompatActivity{
         btnSwipe.setOnStateChangeListener(new OnStateChangeListener() {
             @Override
             public void onStateChange(boolean active) {
-                if(flag ==1){
-                    ring.stop();
-                }else if(flag == 2){
-                    ring2.stop();
-                }else{
-                    mp.stop();
-                }
+                mp.stop();
                 Toast.makeText(getApplicationContext(), "Alarm Stopped", Toast.LENGTH_SHORT).show();
                 ContentValues values = new ContentValues();
                 values.put(AlarmsDBhelperClass.ALARM_STATUS,"OFF");
