@@ -77,8 +77,8 @@ public class RingtoneSelector extends AppCompatActivity implements SongSelectorI
         getMusic();
         songNameArrayList.add("Default song 1");
         songNameArrayList.add("Default song 2");
-        pathArrayList.add("Default song 1");
-        pathArrayList.add("Default song2");
+        pathArrayList.add("song1");
+        pathArrayList.add("song2");
         songsAdapter = new SongsAdapter(songNameArrayList,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(songsAdapter);
@@ -129,7 +129,7 @@ public class RingtoneSelector extends AppCompatActivity implements SongSelectorI
         Intent resultIntent = new Intent();
         resultIntent.putExtra("SongName",pathArrayList.get(position));
         setResult(RESULT_OK,resultIntent);
-        Toast.makeText(getApplicationContext(), ""+pathArrayList.get(position), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), ""+songNameArrayList.get(position), Toast.LENGTH_SHORT).show();
         finish();
     }
 }

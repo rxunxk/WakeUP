@@ -75,10 +75,10 @@ public class ScreenShake extends AppCompatActivity {
             Log.d("not working!","not working!");
         }
         cursor.close();
-        if (songPath.equals("Default song 1")){
+        if (songPath.equals("song1")){
             mp = MediaPlayer.create(this,R.raw.alarm_tone1);
             mp.start();
-        }else if (songPath.equals("Default song 2")){
+        }else if (songPath.equals("song2")){
             mp = MediaPlayer.create(this,R.raw.alarm_tone2);
             mp.start();
         }else {

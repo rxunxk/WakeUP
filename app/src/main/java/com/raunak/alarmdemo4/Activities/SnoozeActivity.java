@@ -52,20 +52,17 @@ public class SnoozeActivity extends AppCompatActivity{
             Log.d("not working!","not working!");
         }
         cursor.close();
-        if(songPath.equals("Default song 1")){
+        Log.d("",""+songPath);
+        if(songPath.equals("song1")){
             mp = MediaPlayer.create(this, R.raw.alarm_tone1);
             mp.start();
-        }else if (songPath.equals("Default song 2")){
+        }else if (songPath.equals("song2")){
             mp = MediaPlayer.create(this,R.raw.alarm_tone2);
             mp.start();
         }else{
             try {
                 mp = new MediaPlayer();
                 mp.setDataSource(songPath);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
                 mp.prepare();
             } catch (IOException e) {
                 e.printStackTrace();
