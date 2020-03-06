@@ -175,7 +175,7 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
         if (requestCode == FRAGMENT_HOME_REQUEST_CODE){
             if (resultCode == RESULT_OK){
                 songPath = data.getStringExtra("SongName");
-                mAlarmsDBhelperClass.insertAlarm("","Q","",songPath,quickHour,quickMin,"ON","",db);
+                mAlarmsDBhelperClass.insertAlarm("quick alarm","Q","",songPath,quickHour,quickMin,"ON","",db);
                 startAlarm(c1,0,true,quickHour+quickMin+1);
                 alarmAdapter.notifyDataSetChanged();
             }

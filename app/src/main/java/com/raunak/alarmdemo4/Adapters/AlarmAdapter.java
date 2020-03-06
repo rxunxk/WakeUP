@@ -47,22 +47,37 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmView> {
 
     @Override
     public void onBindViewHolder(@NonNull AlarmView holder, int position) {
+        //Adding 0 for numbers less than 10.
         if(Integer.parseInt(hoursArrayList.get(position)) < 10 ){
             holder.hours.setText("0"+hoursArrayList.get(position));
         }else {
             holder.hours.setText(hoursArrayList.get(position));
         }
-        if (Integer.parseInt(hoursArrayList.get(position)) < 12)
+        //Logic for displaying the timezone
+        if (Integer.parseInt(hoursArrayList.get(position)) > 12){
+            if (Integer.parseInt(hoursArrayList.get(position)) > 20){
+                holder.hours.setText(""+(Integer.parseInt(hoursArrayList.get(position)) - 12));
+            }else{
+                holder.hours.setText("0"+(Integer.parseInt(hoursArrayList.get(position)) - 12));
+            }
 
+            holder.timeZone.setText("PM");
+        }else{
+            holder.timeZone.setText("AM");
+        }
+
+        //Adding 0 for numbers less than 0 this time for minutes.
         if (Integer.parseInt(minArrayList.get(position)) < 10){
             holder.mins.setText("0"+minArrayList.get(position));
         }else {
             holder.mins.setText(minArrayList.get(position));
         }
+
         holder.repeat.setText(repeatArrayList.get(position));
         holder.mode.setText(modeArrayList.get(position));
         holder.name.setText(nameArrayList.get(position));
 
+        //Logic for coloring the mode for mart alarm mode.
         if(modeArrayList.get(position).equals("E")){
             holder.mode.setTextColor(easy);
         }else if(modeArrayList.get(position).equals("R")){
@@ -83,7 +98,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmView> {
     }
 
     public class AlarmView extends RecyclerView.ViewHolder{
-        TextView hours,mins,repeat,name,mode;
+        TextView hours,mins,repeat,name,mode,timeZone;
         Switch mSwitch;
         public AlarmView(@NonNull View itemView) {
             super(itemView);
@@ -92,7 +107,8 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmView> {
             repeat = itemView.findViewById(R.id.txtRepeatDays);
             name = itemView.findViewById(R.id.txtName);
             mode = itemView.findViewById(R.id.txtMode);
-            mSwitch =itemView.findViewById(R.id.onoff);
+            timeZone = itemView.findViewById(R.id.txtTimeZone);
+            mSwitch =itemView.findViewById(R.id.onOff);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
