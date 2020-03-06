@@ -283,15 +283,6 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
 
     @Override
     public void onModeClicked(int position,String m) {
-        if (Objects.equals(m, "E")) {
-            Toast.makeText(getContext(),"Mode: Easy",Toast.LENGTH_SHORT).show();
-        }else if(Objects.equals(m, "R"))
-            Toast.makeText(getContext(),"Mode : Regular",Toast.LENGTH_SHORT).show();
-        else if(Objects.equals(m, "D")){
-            Toast.makeText(getContext(), "Mode : Difficult", Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(getContext(), "Standard Alarm", Toast.LENGTH_SHORT).show();
-        }
     }
 
     public void startAlarm(Calendar c,int position,boolean isQuick,int requestCode){

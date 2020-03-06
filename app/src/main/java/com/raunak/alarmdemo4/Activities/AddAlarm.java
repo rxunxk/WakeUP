@@ -70,12 +70,6 @@ public class AddAlarm extends AppCompatActivity implements RepeatDialogFragment.
         timeZonePicker.setMaxValue(2);
         timeZonePicker.setMinValue(1);
         timeZonePicker.setDisplayedValues(new String[]{"AM","PM"});
-        timeZonePicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                Toast.makeText(AddAlarm.this, ""+timeZonePicker.getValue(), Toast.LENGTH_SHORT).show();
-            }
-        });
 
         Cursor cursor = db.rawQuery("SELECT alarm_name FROM alarms", new String[]{});
         if (cursor.moveToFirst()) {

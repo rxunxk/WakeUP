@@ -9,6 +9,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.github.florent37.viewtooltip.ViewTooltip;
 import com.raunak.alarmdemo4.Interfaces.AlarmRecyclerViewListener;
 import com.raunak.alarmdemo4.R;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmView> {
     private int easy = Color.parseColor("#ab72c0");
     private int regular = Color.parseColor("#dc5353");
     private int difficult = Color.parseColor("#617be3");
+    private int toolTipColor = Color.parseColor("#B2000000");
 
     public AlarmAdapter(ArrayList<String> hours, ArrayList<String> mins, ArrayList<String> mode, ArrayList<String> repeat, ArrayList<String> name,ArrayList<String> status, AlarmRecyclerViewListener mInterface){
         this.hoursArrayList = hours;
@@ -100,7 +102,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmView> {
     public class AlarmView extends RecyclerView.ViewHolder{
         TextView hours,mins,repeat,name,mode,timeZone;
         Switch mSwitch;
-        public AlarmView(@NonNull View itemView) {
+        public AlarmView(@NonNull final View itemView) {
             super(itemView);
             hours = itemView.findViewById(R.id.txtHOUR);
             mins = itemView.findViewById(R.id.txtMins);
@@ -135,6 +137,43 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmView> {
             mode.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (modeArrayList.get(getAdapterPosition()).equals("Q")) {
+                        ViewTooltip
+                                .on(mode)
+                                .autoHide(true, 2000)
+                                .corner(30)
+                                .color(toolTipColor)
+                                .position(ViewTooltip.Position.BOTTOM)
+                                .text("Quick")
+                                .show();
+                    }else if (modeArrayList.get(getAdapterPosition()).equals("E")){
+                        ViewTooltip
+                                .on(mode)
+                                .autoHide(true,2000)
+                                .corner(30)
+                                .color(easy)
+                                .position(ViewTooltip.Position.BOTTOM)
+                                .text("Easy")
+                                .show();
+                    }else if (modeArrayList.get(getAdapterPosition()).equals("R")){
+                        ViewTooltip
+                                .on(mode)
+                                .autoHide(true,2000)
+                                .corner(30)
+                                .color(regular)
+                                .position(ViewTooltip.Position.BOTTOM)
+                                .text("Regular")
+                                .show();
+                    }else{
+                        ViewTooltip
+                                .on(mode)
+                                .autoHide(true,2000)
+                                .corner(30)
+                                .color(difficult)
+                                .position(ViewTooltip.Position.BOTTOM)
+                                .text("Difficult")
+                                .show();
+                    }
                     mInterface.onModeClicked(getAdapterPosition(),modeArrayList.get(getAdapterPosition()));
                 }
             });

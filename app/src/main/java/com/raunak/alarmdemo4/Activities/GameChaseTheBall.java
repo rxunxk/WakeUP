@@ -3,6 +3,7 @@ package com.raunak.alarmdemo4.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
@@ -266,6 +267,14 @@ public class GameChaseTheBall extends AppCompatActivity {
             finish();
         }
         return true;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (Intent.ACTION_MAIN.equals(intent.getAction())) {
+            Log.i("HOME: ", "onNewIntent: HOME Key");
+        }
     }
 
     public void startGame(View view){
