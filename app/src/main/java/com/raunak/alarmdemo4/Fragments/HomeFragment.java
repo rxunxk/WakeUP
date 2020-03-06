@@ -228,7 +228,8 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
     public void onLongItemClick(int position) {
         int requestCode = Integer.parseInt(hoursArrayList.get(position)) + Integer.parseInt(minArrayList.get(position)) + 1;
         //Deleting the row from the database
-        db.delete("alarms", "alarm_name=?", new String[]{"" + nameArrayList.get(position)});
+        /*db.delete("alarms", "alarm_name=?", new String[]{"" + nameArrayList.get(position)});*/
+        db.delete("alarms","hours=? AND minutes=?",new String[]{""+hoursArrayList.get(position),""+minArrayList.get(position)});
 
         if (nameArrayList.get(position).equals("")) {
             cancelAlarm(position, true, requestCode);
