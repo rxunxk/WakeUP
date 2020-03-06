@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -24,7 +26,7 @@ import com.raunak.alarmdemo4.R;
 import java.util.ArrayList;
 
 public class RingtoneSelector extends AppCompatActivity implements SongSelectorInterface {
-    private final int MY_PERMISSION_REQUEST = 1;
+    private int STORAGE_PERMISSION_CODE = 1;
     ArrayList<String> songNameArrayList,pathArrayList;
     RecyclerView recyclerView;
     SongsAdapter songsAdapter;
@@ -35,18 +37,32 @@ public class RingtoneSelector extends AppCompatActivity implements SongSelectorI
         setContentView(R.layout.activity_ringtonee_selector);
 
         getSupportActionBar().setTitle("Alarm tone");
-        if(ContextCompat.checkSelfPermission(getApplicationContext(),
-                Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-            if(ActivityCompat.shouldShowRequestPermissionRationale(RingtoneSelector.this,
-            Manifest.permission.READ_EXTERNAL_STORAGE)){
-                ActivityCompat.requestPermissions(RingtoneSelector.this,
-                        new String[]{   Manifest.permission.READ_EXTERNAL_STORAGE},MY_PERMISSION_REQUEST);
-            }else{
-                ActivityCompat.requestPermissions(RingtoneSelector.this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},MY_PERMISSION_REQUEST);
-            }
-        }else{
+        if(ContextCompat.checkSelfPermission(getApplicationContext(),Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            Toast.makeText(getApplicationContext(), "Loading songs", Toast.LENGTH_SHORT).show();
             doStuff();
+        }else{
+            requestStoragePermission();
+        }
+    }
+
+    public void requestStoragePermission(){
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.READ_EXTERNAL_STORAGE)){
+            new AlertDialog.Builder(this)
+                    .setTitle("Permission Needed")
+                    .setMessage("in order to display songs in your device we need STORAGE permissions. ")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ActivityCompat.requestPermissions(RingtoneSelector.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+                        }
+                    }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }).create().show();
+        }else{
+            ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},STORAGE_PERMISSION_CODE);
         }
     }
 
@@ -108,18 +124,12 @@ public class RingtoneSelector extends AppCompatActivity implements SongSelectorI
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode){
-            case MY_PERMISSION_REQUEST:{
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
-                    if (ContextCompat.checkSelfPermission(RingtoneSelector.this,
-                            Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-                    {
-                        Toast.makeText(this, "No permission granted", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                    return;
-                }
+        if (requestCode == STORAGE_PERMISSION_CODE){
+            if (permissions.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(this, "PERMISSION GRANTED", Toast.LENGTH_SHORT).show();
+                doStuff();
+            }else{
+                Toast.makeText(this,"PERMISSION DENIED",Toast.LENGTH_SHORT);
             }
         }
     }
