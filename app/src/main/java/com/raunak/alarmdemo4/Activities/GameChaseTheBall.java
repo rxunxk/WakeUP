@@ -261,7 +261,7 @@ public class GameChaseTheBall extends AppCompatActivity {
                 action_flg = false;
             }
         }
-        if (score > 300){
+        if (score == 300){
             mp.stop();
             finish();
         }
