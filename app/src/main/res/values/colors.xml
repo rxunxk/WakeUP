@@ -5,9 +5,20 @@
     <color name="colorAccent">#76a6ef</color>
     <color name="numberPickerText">#FFFFFF</color>
     <color name="repeatHighlight">#808080</color>
-
+    <color name="grey_10">#e6e6e6</color>
     <color name="WHITE">#FFFFFF</color>
     
     <!-->Switch Colors <-->
     <color name="disable_foreground_grey"/>
+
+    <!-->Colors for the Floating action button <-->
+    <color name="black_semi_transparent">#B2000000</color>
+    <color name="background">#e5e5e5</color>
+    <color name="half_black">#808080</color>
+    <color name="white">#fafafa</color>
+    <color name="white_pressed">#f1f1f1</color>
+    <color name="pink">#e91e63</color>
+    <color name="pink_pressed">#ec407a</color>
+    <color name="blue_semi_transparent">#805677fc</color>
+    <color name="blue_semi_transparent_pressed">#80738ffe</color>
 </resources>

@@ -19,4 +19,9 @@
         <item name="android:layout_height">wrap_content</item>-->
     </style>
 
+    <style name="customFAB">
+        <item name="android:background">@drawable/fab_background</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
 </resources>

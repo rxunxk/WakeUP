@@ -17,11 +17,11 @@
     <View
         android:id="@+id/border"
         android:layout_width="match_parent"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
         android:layout_height="1dp"
         android:layout_above="@+id/bottomNav"
-        android:background="#000000"/>
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:background="#9A9A9A" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"

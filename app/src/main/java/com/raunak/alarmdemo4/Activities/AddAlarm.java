@@ -57,9 +57,10 @@ public class AddAlarm extends AppCompatActivity implements RepeatDialogFragment.
         edtLabel = findViewById(R.id.edtLabel);
         btnTone = findViewById(R.id.btnTone);
         btnSave = findViewById(R.id.btnSave);
-        hourPicker.setMaxValue(23);
-        hourPicker.setMinValue(0);
         nameArrayList = new ArrayList<>();
+
+        hourPicker.setMaxValue(12);
+        hourPicker.setMinValue(0);
 
         minutePicker.setMaxValue(59);
         minutePicker.setMinValue(0);

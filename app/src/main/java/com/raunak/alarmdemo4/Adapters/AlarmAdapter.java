@@ -52,6 +52,8 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmView> {
         }else {
             holder.hours.setText(hoursArrayList.get(position));
         }
+        if (Integer.parseInt(hoursArrayList.get(position)) < 12)
+
         if (Integer.parseInt(minArrayList.get(position)) < 10){
             holder.mins.setText("0"+minArrayList.get(position));
         }else {

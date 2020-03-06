@@ -50,53 +50,36 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/FABlinearLayout"
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/fab_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="15dp"
-        android:orientation="vertical">
+        android:layout_margin="15dp"
+        app:fab_addButtonColorNormal="@color/colorPrimary"
+        app:fab_addButtonColorPressed="@color/colorPrimaryDark"
+        app:fab_addButtonPlusIconColor="@color/white"
+        app:fab_labelStyle="@style/customFAB">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btnAlarmADD"
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_action1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:src="@drawable/ic_addalarm"
-            android:tint="#FFFFFF"
-            app:backgroundTint="@color/colorPrimary"
-            app:fabSize="mini"
-            app:maxImageSize="20dp"
-            app:rippleColor="@color/colorPrimaryDark" />
+            app:fab_colorNormal="@color/white"
+            app:fab_size="mini"
+            app:fab_colorPressed="@color/white_pressed"
+            app:fab_icon="@drawable/ic_addalarm"
+            app:fab_title="SMART ALARM"/>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_button2"
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_action2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="10dp"
-            android:src="@drawable/ic_quick"
-            android:tint="#FFFFFF"
-            app:backgroundTint="@color/colorPrimary"
-            app:fabSize="mini"
-            app:maxImageSize="20dp"
-            app:rippleColor="@color/colorPrimaryDark" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_button1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginBottom="20dp"
-            android:src="@drawable/ic_add"
-            android:tint="#FFFFFF"
-            app:backgroundTint="@color/colorPrimary"
-            app:borderWidth="0dp"
-            app:fabSize="normal"
-            app:rippleColor="@color/colorPrimaryDark" />
-    </LinearLayout>
+            app:fab_colorNormal="@color/white"
+            app:fab_size="mini"
+            app:fab_colorPressed="@color/white_pressed"
+            app:fab_icon="@drawable/ic_quick"
+            app:fab_title="QUICK ALARM"/>
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

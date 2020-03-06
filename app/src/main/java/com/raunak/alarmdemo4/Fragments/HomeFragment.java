@@ -30,6 +30,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.raunak.alarmdemo4.Activities.AddAlarm;
 import com.raunak.alarmdemo4.Activities.RingtoneSelector;
@@ -50,7 +52,8 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
     public static String SONG_NAME;
     private static final int SYSTEM_ALERT_WINDOW_CODE = 100;
     private final int FRAGMENT_HOME_REQUEST_CODE =1;
-    private FloatingActionButton mAlarmAddButton,fab_button_1,fab_button_2,fab_button_3;
+    private FloatingActionsMenu fabMenu;
+    private com.getbase.floatingactionbutton.FloatingActionButton fab_button_1, fab_button_2;
     private SQLiteDatabase db;
     private RecyclerView recyclerView;
     private ImageView emptyImageView;
@@ -92,36 +95,28 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
 
         //Initializing RecyclerView, DatabaseHelperClass, FAB button, The ON OFF switch & the empty ImageView
         mAlarmsDBhelperClass = new AlarmsDBhelperClass(getContext());
-        mAlarmAddButton = getView().findViewById(R.id.btnAlarmADD);
-        fab_button_1 = getView().findViewById(R.id.fab_button1);
-        fab_button_2 = getView().findViewById(R.id.fab_button2);
+        fab_button_1 = getView().findViewById(R.id.fab_action1);
+        fab_button_2 = getView().findViewById(R.id.fab_action2);
+        fabMenu = getView().findViewById(R.id.fab_main);
+
         recyclerView = getView().findViewById(R.id.alarmList);
         emptyImageView = getView().findViewById(R.id.empty_view);
         SwipeRefreshLayout swipeRefreshLayout = getView().findViewById(R.id.swipeRefreshLayout);
         txtEmpty = getView().findViewById(R.id.txtEmpty);
         timePicker = new TimePickerFragment(this);
 
-        setFabTranslationY();
         //fab event handling
-        fab_button_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                menuCheck();
-            }
-        });
         fab_button_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                menuCheck();
                 timePicker.show(getChildFragmentManager(),null);
                 Log.d("good",""+songPath);
                 Log.d("OKAY","timePicker executed");
             }
         });
-        mAlarmAddButton.setOnClickListener(new View.OnClickListener() {
+        fab_button_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                menuCheck();
                 Intent mIntent = new Intent(getContext(), AddAlarm.class);
                 startActivityForResult(mIntent, ADD_ALARM_REQUEST_CODE);
             }
@@ -162,18 +157,14 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
 
                 if (dy >0) {
                     // Scroll Down
-                    if (fab_button_1.isShown()) {
-                        fab_button_1.hide();
-                        /*fab_button_2.hide();
-                        mAlarmAddButton.hide();*/
+                    if (fabMenu.isShown()) {
+                        fabMenu.setVisibility(View.GONE);
                     }
                 }
                 else if (dy <0) {
                     // Scroll Up
-                    if (!fab_button_1.isShown()) {
-                        fab_button_1.show();
-                        /*fab_button_2.show();
-                        mAlarmAddButton.show();*/
+                    if (!fabMenu.isShown()) {
+                        fabMenu.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -359,50 +350,5 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
         Intent intent = new Intent(getContext(), RingtoneSelector.class);
         startActivityForResult(intent,FRAGMENT_HOME_REQUEST_CODE);
 
-    }
-
-    private void setFabTranslationY() {
-        fab_button_2.setAlpha(0f);
-        mAlarmAddButton.setAlpha(0f);
-
-        fab_button_2.setTranslationY(fabTranslationY);
-        mAlarmAddButton.setTranslationY(fabTranslationY);
-    }
-
-    private void menuCheck() {
-        if (isFabMenuOpen) {
-            fabMenuClose();
-        } else {
-            fabMenuOpen();
-        }
-    }
-
-    private void fabMenuOpen() {
-        isFabMenuOpen = !isFabMenuOpen;
-        fabMainAnimation(true);
-        fabOpenAnimation(fab_button_2);
-        fabOpenAnimation(mAlarmAddButton);
-    }
-
-    private void fabMenuClose() {
-        isFabMenuOpen = !isFabMenuOpen;
-        fabMainAnimation(false);
-        fabCloseAnimation(fab_button_2);
-        fabCloseAnimation(mAlarmAddButton);
-    }
-    private void fabCloseAnimation(FloatingActionButton fab) {
-        fab.animate().translationY(fabTranslationY).alpha(0f).setInterpolator(overshootInterpolator).setDuration(speed).start();
-    }
-
-    private void fabOpenAnimation(FloatingActionButton fab) {
-        fab.animate().translationY(0f).alpha(1f).setInterpolator(overshootInterpolator).setDuration(speed).start();
-    }
-
-    private void fabMainAnimation(boolean isOpen) {
-        if (isOpen) {
-            fab_button_1.animate().setInterpolator(overshootInterpolator).rotation(45f).setDuration(speed).start();
-        } else {
-            fab_button_1.animate().setInterpolator(overshootInterpolator).rotation(0f).setDuration(speed).start();
-        }
     }
 }
