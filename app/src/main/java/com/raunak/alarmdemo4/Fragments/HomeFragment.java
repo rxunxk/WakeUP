@@ -84,7 +84,6 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
         /*checkPermission(Manifest.permission.SYSTEM_ALERT_WINDOW,SYSTEM_ALERT_WINDOW_CODE);*/
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.SYSTEM_ALERT_WINDOW) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[] {Manifest.permission.SYSTEM_ALERT_WINDOW},SYSTEM_ALERT_WINDOW_CODE);
-            Toast.makeText(getContext(),"OK",Toast.LENGTH_SHORT).show();
         }
 
         //Initializing RecyclerView, DatabaseHelperClass, FAB button, The ON OFF switch & the empty ImageView
