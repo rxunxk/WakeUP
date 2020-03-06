@@ -19,6 +19,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import android.widget.Toast;
+
 import com.raunak.alarmdemo4.Fragments.ModeDialog;
 import com.raunak.alarmdemo4.Fragments.RepeatDialogFragment;
 import com.raunak.alarmdemo4.HelperClasses.AlarmsDBhelperClass;
@@ -30,8 +32,7 @@ import java.util.ArrayList;
 public class AddAlarm extends AppCompatActivity implements RepeatDialogFragment.onMultiChoiceListener, ModeDialog.radioClickListener {
     SQLiteDatabase db;
     AlarmsDBhelperClass helper;
-    NumberPicker hourPicker;
-    NumberPicker minutePicker;
+    NumberPicker hourPicker,minutePicker,timeZonePicker;
     Button btnRepeat,btnTone;
     Button btnMode;
     ArrayList<String> repeatDays, nameArrayList;
@@ -52,6 +53,7 @@ public class AddAlarm extends AppCompatActivity implements RepeatDialogFragment.
         db = helper.getReadableDatabase();
         hourPicker = findViewById(R.id.hoursPicker);
         minutePicker = findViewById(R.id.minutesPicker);
+        timeZonePicker = findViewById(R.id.timeZonePicker);
         btnRepeat = findViewById(R.id.repeat);
         btnMode = findViewById(R.id.mode);
         edtLabel = findViewById(R.id.edtLabel);
@@ -64,6 +66,16 @@ public class AddAlarm extends AppCompatActivity implements RepeatDialogFragment.
 
         minutePicker.setMaxValue(59);
         minutePicker.setMinValue(0);
+
+        timeZonePicker.setMaxValue(2);
+        timeZonePicker.setMinValue(1);
+        timeZonePicker.setDisplayedValues(new String[]{"AM","PM"});
+        timeZonePicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                Toast.makeText(AddAlarm.this, ""+timeZonePicker.getValue(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         Cursor cursor = db.rawQuery("SELECT alarm_name FROM alarms", new String[]{});
         if (cursor.moveToFirst()) {
@@ -142,7 +154,12 @@ public class AddAlarm extends AppCompatActivity implements RepeatDialogFragment.
                 hours = hourPicker.getValue();
                 mins = minutePicker.getValue();
 
-                helper.insertAlarm(name, mode, repeat,songName, hours, mins,"ON","", db);
+                if (timeZonePicker.getValue() == 1){
+                    helper.insertAlarm(name, mode, repeat,songName, hours, mins,"ON","", db);
+                }else{
+                    hours += 12;
+                    helper.insertAlarm(name, mode, repeat,songName, hours, mins,"ON","", db);
+                }
                 finish();
             }
         });
