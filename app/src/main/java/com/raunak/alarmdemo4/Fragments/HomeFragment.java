@@ -49,11 +49,9 @@ import static android.app.Activity.RESULT_OK;
 
 public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,TimePickerDialog.OnTimeSetListener{
 
-    public static String SONG_NAME;
     private static final int SYSTEM_ALERT_WINDOW_CODE = 100;
     private final int FRAGMENT_HOME_REQUEST_CODE =1;
     private FloatingActionsMenu fabMenu;
-    private com.getbase.floatingactionbutton.FloatingActionButton fab_button_1, fab_button_2;
     private SQLiteDatabase db;
     private RecyclerView recyclerView;
     private ImageView emptyImageView;
@@ -68,10 +66,6 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
     private ArrayList<String> status = new ArrayList<>();
     private AlarmAdapter alarmAdapter = new AlarmAdapter(hoursArrayList,minArrayList,modeArrayList,repeatArrayList,nameArrayList,status,this);
     private final int ADD_ALARM_REQUEST_CODE =2;
-    private OvershootInterpolator overshootInterpolator = new OvershootInterpolator();
-    private int fabTranslationY = 100;
-    private boolean isFabMenuOpen = false;
-    private int speed = 250;
     private int quickHour;
     private int quickMin;
     private String songPath;
@@ -95,8 +89,8 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
 
         //Initializing RecyclerView, DatabaseHelperClass, FAB button, The ON OFF switch & the empty ImageView
         mAlarmsDBhelperClass = new AlarmsDBhelperClass(getContext());
-        fab_button_1 = getView().findViewById(R.id.fab_action1);
-        fab_button_2 = getView().findViewById(R.id.fab_action2);
+        com.getbase.floatingactionbutton.FloatingActionButton fab_button_1 = getView().findViewById(R.id.fab_action1);
+        com.getbase.floatingactionbutton.FloatingActionButton fab_button_2 = getView().findViewById(R.id.fab_action2);
         fabMenu = getView().findViewById(R.id.fab_main);
 
         recyclerView = getView().findViewById(R.id.alarmList);
