@@ -213,7 +213,6 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
     //RecyclerView's onClick()
     @Override
     public void onItemClick(int position) {
-        Toast.makeText(getContext(), "Alarm Clicked !", Toast.LENGTH_SHORT).show();
     }
 
     //RecyclerView's onLongClick()
@@ -267,7 +266,6 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
             } else {
                 startAlarm(c,position,false,0);
             }
-            Toast.makeText(getContext(),""+c.getTime(),Toast.LENGTH_SHORT).show();
         }else{
             ContentValues values = new ContentValues();
             values.put(AlarmsDBhelperClass.ALARM_STATUS,"OFF");
@@ -277,7 +275,6 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
             } else {
                 cancelAlarm(position,false,0);
             }
-            Toast.makeText(getContext(),"Alarm Turned OFF !",Toast.LENGTH_SHORT).show();
         }
     }
 
