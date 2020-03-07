@@ -53,6 +53,7 @@
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
                   android:gravity="center"
+                  android:layout_marginBottom="10dp"
                   android:orientation="horizontal">
 
                      <EditText
@@ -67,17 +68,11 @@
 
               </LinearLayout>
 
-              <!--<Button
-                  android:id="@+id/repeat"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:gravity="center"
-                  android:text="@string/btnRepeat" />-->
-
               <com.nex3z.togglebuttongroup.MultiSelectToggleGroup
                   android:id="@+id/repeat"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
+                  android:layout_marginBottom="10dp"
                   app:tbgChildSpacing="auto">
 
               <com.nex3z.togglebuttongroup.button.CircularToggle
