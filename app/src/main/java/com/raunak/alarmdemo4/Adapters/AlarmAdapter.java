@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.github.florent37.viewtooltip.ViewTooltip;
 import com.raunak.alarmdemo4.Interfaces.AlarmRecyclerViewListener;
 import com.raunak.alarmdemo4.R;
+import com.suke.widget.SwitchButton;
+
 import java.util.ArrayList;
 import static com.raunak.alarmdemo4.R.layout.alarm_profile;
 
@@ -101,7 +103,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmView> {
 
     public class AlarmView extends RecyclerView.ViewHolder{
         TextView hours,mins,repeat,name,mode,timeZone;
-        Switch mSwitch;
+        SwitchButton mSwitch;
         public AlarmView(@NonNull final View itemView) {
             super(itemView);
             hours = itemView.findViewById(R.id.txtHOUR);
@@ -126,11 +128,10 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmView> {
                       return true;
                 }
             });
-
-            mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            mSwitch.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    mInterface.onSwitchClicked(b,getAdapterPosition());
+                public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+                    mInterface.onSwitchClicked(isChecked,getAdapterPosition());
                 }
             });
 

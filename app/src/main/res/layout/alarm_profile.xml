@@ -66,8 +66,9 @@
         android:layout_marginBottom="10dp"
         android:layout_below="@id/txtHOUR" />
 
-    <Switch
+    <com.suke.widget.SwitchButton
         android:id="@+id/onOff"
+        app:sb_checked_color="@color/colorPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
