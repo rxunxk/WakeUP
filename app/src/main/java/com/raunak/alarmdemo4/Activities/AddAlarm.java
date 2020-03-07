@@ -4,7 +4,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
-
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
@@ -19,27 +18,25 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
-import android.widget.Toast;
-
+import com.nex3z.togglebuttongroup.MultiSelectToggleGroup;
 import com.raunak.alarmdemo4.Fragments.ModeDialog;
-import com.raunak.alarmdemo4.Fragments.RepeatDialogFragment;
 import com.raunak.alarmdemo4.HelperClasses.AlarmsDBhelperClass;
 import com.raunak.alarmdemo4.R;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Set;
 
-public class AddAlarm extends AppCompatActivity implements RepeatDialogFragment.onMultiChoiceListener, ModeDialog.radioClickListener {
+public class AddAlarm extends AppCompatActivity implements ModeDialog.radioClickListener {
     SQLiteDatabase db;
     AlarmsDBhelperClass helper;
     NumberPicker hourPicker,minutePicker,timeZonePicker;
     Button btnRepeat,btnTone;
     Button btnMode;
     ArrayList<String> repeatDays, nameArrayList;
+    MultiSelectToggleGroup multi;
     EditText edtLabel;
     Button btnSave;
     //variables for storing values in the database
-    String name, mode, repeat,songName;
+    String name, mode,songName;
     int hours, mins;
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
@@ -54,7 +51,7 @@ public class AddAlarm extends AppCompatActivity implements RepeatDialogFragment.
         hourPicker = findViewById(R.id.hoursPicker);
         minutePicker = findViewById(R.id.minutesPicker);
         timeZonePicker = findViewById(R.id.timeZonePicker);
-        btnRepeat = findViewById(R.id.repeat);
+        multi = findViewById(R.id.repeat);
         btnMode = findViewById(R.id.mode);
         edtLabel = findViewById(R.id.edtLabel);
         btnTone = findViewById(R.id.btnTone);
@@ -109,15 +106,6 @@ public class AddAlarm extends AppCompatActivity implements RepeatDialogFragment.
             }
         });
 
-        btnRepeat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogFragment multiChoiceDialog = new RepeatDialogFragment();
-                multiChoiceDialog.setCancelable(false);
-                multiChoiceDialog.show(getSupportFragmentManager(), "Repeat days Dialog");
-            }
-        });
-
         btnMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -135,24 +123,25 @@ public class AddAlarm extends AppCompatActivity implements RepeatDialogFragment.
             }
         });
 
+        /*multi.setOnCheckedChangeListener(new MultiSelectToggleGroup.OnCheckedStateChangeListener() {
+            @Override
+            public void onCheckedStateChanged(MultiSelectToggleGroup group, int checkedId, boolean isChecked) {
+                Log.d("selected",""+ Arrays.toString(checkedIDArray));
+            }
+        });*/
+
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                StringBuilder sb = new StringBuilder();
                 name = edtLabel.getText().toString();
-                for (String s : repeatDays) {
-                    sb.append(s);
-                    sb.append(" ");
-                }
-                repeat = String.valueOf(sb);
                 hours = hourPicker.getValue();
                 mins = minutePicker.getValue();
 
                 if (timeZonePicker.getValue() == 1){
-                    helper.insertAlarm(name, mode, repeat,songName, hours, mins,"ON","", db);
+                    helper.insertAlarm(name, mode, getRepeat(),songName, hours, mins,"ON","", db);
                 }else{
                     hours += 12;
-                    helper.insertAlarm(name, mode, repeat,songName, hours, mins,"ON","", db);
+                    helper.insertAlarm(name, mode, getRepeat(),songName, hours, mins,"ON","", db);
                 }
                 finish();
             }
@@ -167,15 +156,6 @@ public class AddAlarm extends AppCompatActivity implements RepeatDialogFragment.
                 songName = data.getStringExtra("SongName");
             }
         }
-    }
-
-    @Override
-    public void onPositiveButtonClicked(String[] list, ArrayList<String> selectedDaysList) {
-        repeatDays = selectedDaysList;
-    }
-
-    @Override
-    public void onNegativeButtonClicked() {
     }
 
     @Override
@@ -196,5 +176,40 @@ public class AddAlarm extends AppCompatActivity implements RepeatDialogFragment.
     public void hideKeyboard(View view){
         InputMethodManager iim = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         iim.hideSoftInputFromWindow(view.getWindowToken(),0);
+    }
+
+    public String getRepeat(){
+        StringBuilder sb = new StringBuilder();
+        Set<Integer> set = multi.getCheckedIds();
+        Integer[] checkedIDArray = set.toArray(new Integer[set.size()]);
+        for (int i = 0 ; i < checkedIDArray.length ; i++ ){
+            switch(checkedIDArray[i]){
+                case 2131362109:
+                    sb.append("SUN ");
+                    break;
+                case 2131361988:
+                    sb.append("MON ");
+                    break;
+                case 2131362148:
+                    sb.append("TUE ");
+                    break;
+                case 2131362173:
+                    sb.append("WED ");
+                    break;
+                case 2131362133:
+                    sb.append("THU ");
+                    break;
+                case 2131361945:
+                    sb.append("FRI ");
+                    break;
+                case 2131362059:
+                    sb.append("SAT ");
+                    break;
+                default:
+                    break;
+            }
+        }
+        String s = sb.toString();
+        return s;
     }
 }
