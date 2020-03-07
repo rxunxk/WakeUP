@@ -4,8 +4,6 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,7 +11,6 @@ import com.github.florent37.viewtooltip.ViewTooltip;
 import com.raunak.alarmdemo4.Interfaces.AlarmRecyclerViewListener;
 import com.raunak.alarmdemo4.R;
 import com.suke.widget.SwitchButton;
-
 import java.util.ArrayList;
 import static com.raunak.alarmdemo4.R.layout.alarm_profile;
 
@@ -52,29 +49,34 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmView> {
     @Override
     public void onBindViewHolder(@NonNull AlarmView holder, int position) {
         //Adding 0 for numbers less than 10.
-        if(Integer.parseInt(hoursArrayList.get(position)) < 10 ){
-            holder.hours.setText("0"+hoursArrayList.get(position));
-        }else {
-            holder.hours.setText(hoursArrayList.get(position));
+        if (!hoursArrayList.isEmpty()) {
+            if(Integer.parseInt(hoursArrayList.get(position)) < 10 ){
+                holder.hours.setText("0"+hoursArrayList.get(position));
+            }else {
+                holder.hours.setText(hoursArrayList.get(position));
+            }
         }
         //Logic for displaying the timezone
-        if (Integer.parseInt(hoursArrayList.get(position)) > 12){
-            if (Integer.parseInt(hoursArrayList.get(position)) > 20){
-                holder.hours.setText(""+(Integer.parseInt(hoursArrayList.get(position)) - 12));
+        if (!hoursArrayList.isEmpty()) {
+            if (Integer.parseInt(hoursArrayList.get(position)) > 12){
+                if (Integer.parseInt(hoursArrayList.get(position)) > 20){
+                    holder.hours.setText(""+(Integer.parseInt(hoursArrayList.get(position)) - 12));
+                }else{
+                    holder.hours.setText("0"+(Integer.parseInt(hoursArrayList.get(position)) - 12));
+                }
+                holder.timeZone.setText("PM");
             }else{
-                holder.hours.setText("0"+(Integer.parseInt(hoursArrayList.get(position)) - 12));
+                holder.timeZone.setText("AM");
             }
-
-            holder.timeZone.setText("PM");
-        }else{
-            holder.timeZone.setText("AM");
         }
 
         //Adding 0 for numbers less than 0 this time for minutes.
-        if (Integer.parseInt(minArrayList.get(position)) < 10){
-            holder.mins.setText("0"+minArrayList.get(position));
-        }else {
-            holder.mins.setText(minArrayList.get(position));
+        if (!minArrayList.isEmpty()) {
+            if (Integer.parseInt(minArrayList.get(position)) < 10){
+                holder.mins.setText("0"+minArrayList.get(position));
+            }else {
+                holder.mins.setText(minArrayList.get(position));
+            }
         }
 
         holder.repeat.setText(repeatArrayList.get(position));
@@ -82,17 +84,21 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmView> {
         holder.name.setText(nameArrayList.get(position));
 
         //Logic for coloring the mode for mart alarm mode.
-        if(modeArrayList.get(position).equals("E")){
-            holder.mode.setTextColor(easy);
-        }else if(modeArrayList.get(position).equals("R")){
-            holder.mode.setTextColor(regular);
-        }else{
-            holder.mode.setTextColor(difficult);
+        if (!modeArrayList.isEmpty()) {
+            if(modeArrayList.get(position).equals("E")){
+                holder.mode.setTextColor(easy);
+            }else if(modeArrayList.get(position).equals("R")){
+                holder.mode.setTextColor(regular);
+            }else{
+                holder.mode.setTextColor(difficult);
+            }
         }
-        if(statusArrayList.get(position).equals("ON")){
-            holder.mSwitch.setChecked(true);
-        }else{
-            holder.mSwitch.setChecked(false);
+        if (!statusArrayList.isEmpty()) {
+            if(statusArrayList.get(position).equals("ON")){
+                holder.mSwitch.setChecked(true);
+            }else{
+                holder.mSwitch.setChecked(false);
+            }
         }
 
     }
