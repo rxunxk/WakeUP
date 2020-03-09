@@ -45,7 +45,6 @@
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:layout_gravity="center_horizontal"
-           android:layout_margin="20dp"
            android:gravity="center"
            android:orientation="vertical">
 
@@ -58,6 +57,7 @@
 
                      <EditText
                          android:id="@+id/edtLabel"
+                         android:fontFamily="@font/open_sans"
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
                          android:ems="10"
@@ -120,6 +120,7 @@
 
               <Button
                   android:id="@+id/mode"
+                  android:fontFamily="@font/open_sans"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:text="@string/btnMode" />
@@ -128,16 +129,18 @@
                   android:id="@+id/btnTone"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
+                  android:fontFamily="@font/open_sans"
                   android:text="@string/btnTone" />
 
               <Button
                   android:id="@+id/btnSave"
-                  android:layout_width="139dp"
+                  android:layout_width="170dp"
                   android:layout_height="wrap_content"
                   android:layout_margin="16dp"
                   android:text="@string/btnSave"
-                  android:textColor="#1E5631"
-                  android:textSize="20sp" />
+                  android:fontFamily="@font/open_sans"
+                  android:textColor="#FFFFFF"/>
+
        </LinearLayout>
 
 </LinearLayout>

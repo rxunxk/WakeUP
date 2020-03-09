@@ -22,6 +22,8 @@ import com.nex3z.togglebuttongroup.MultiSelectToggleGroup;
 import com.raunak.alarmdemo4.Fragments.ModeDialog;
 import com.raunak.alarmdemo4.HelperClasses.AlarmsDBhelperClass;
 import com.raunak.alarmdemo4.R;
+import com.subsub.library.BeautyButton;
+
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -29,12 +31,10 @@ public class AddAlarm extends AppCompatActivity implements ModeDialog.radioClick
     SQLiteDatabase db;
     AlarmsDBhelperClass helper;
     NumberPicker hourPicker,minutePicker,timeZonePicker;
-    Button btnRepeat,btnTone;
-    Button btnMode;
-    ArrayList<String> repeatDays, nameArrayList;
+    Button btnMode,btnTone,btnSave;
+    ArrayList<String> nameArrayList;
     MultiSelectToggleGroup multi;
     EditText edtLabel;
-    Button btnSave;
     //variables for storing values in the database
     String name, mode,songName;
     int hours, mins;

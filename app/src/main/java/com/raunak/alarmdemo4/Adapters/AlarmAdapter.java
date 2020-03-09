@@ -83,7 +83,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmView> {
         holder.mode.setText(modeArrayList.get(position));
         holder.name.setText(nameArrayList.get(position));
 
-        //Logic for coloring the mode for mart alarm mode.
+        //Logic for coloring the mode for smart alarm mode.
         if (!modeArrayList.isEmpty()) {
             if(modeArrayList.get(position).equals("E")){
                 holder.mode.setTextColor(easy);

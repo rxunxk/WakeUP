@@ -33,6 +33,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.raunak.alarmdemo4.Activities.AddAlarm;
 import com.raunak.alarmdemo4.Activities.RingtoneSelector;
 import com.raunak.alarmdemo4.Adapters.AlarmAdapter;
@@ -244,7 +245,8 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
         alarmAdapter.notifyItemRemoved(position);
 
         //User Feedback
-        Toast.makeText(getContext(), "Alarm Deleted !", Toast.LENGTH_SHORT).show();
+        Snackbar snackbar = Snackbar.make(txtEmpty, "Alarm Deleted!", Snackbar.LENGTH_SHORT);
+        snackbar.show();
     }
 
     @Override
