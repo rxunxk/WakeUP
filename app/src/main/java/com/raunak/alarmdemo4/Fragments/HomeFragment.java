@@ -104,8 +104,6 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
             @Override
             public void onClick(View v) {
                 timePicker.show(getChildFragmentManager(),null);
-                Log.d("good",""+songPath);
-                Log.d("OKAY","timePicker executed");
             }
         });
         fab_button_1.setOnClickListener(new View.OnClickListener() {
@@ -172,12 +170,27 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == FRAGMENT_HOME_REQUEST_CODE){
-            if (resultCode == RESULT_OK){
+        if (requestCode == FRAGMENT_HOME_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
                 songPath = data.getStringExtra("SongName");
-                mAlarmsDBhelperClass.insertAlarm("quick alarm","Q","",songPath,quickHour,quickMin,"ON","",db);
-                startAlarm(c1,0,true,quickHour+quickMin+1);
+                if (songPath.equals("")){
+                    songPath = "song1";
+                }
+                mAlarmsDBhelperClass.insertAlarm("quick alarm", "Q", "", songPath, quickHour, quickMin, "ON", "", db);
+                startAlarm(c1,"Q",quickHour+quickMin+1);
                 alarmAdapter.notifyDataSetChanged();
+            }
+        }else if (requestCode ==  ADD_ALARM_REQUEST_CODE){
+            if (data != null) {
+                Calendar c = Calendar.getInstance();
+                int hour = data.getIntExtra("hours",0);
+                int min = data.getIntExtra("mins",0);
+                c.set(Calendar.HOUR_OF_DAY,hour);
+                c.set(Calendar.MINUTE,min);
+                c.set(Calendar.SECOND,0);
+                if (c.getTimeInMillis() < System.currentTimeMillis())
+                    c.add(Calendar.DAY_OF_YEAR, 1);
+                startAlarm(c,data.getStringExtra("mode"),hour+min+1);
             }
         }
     }
@@ -223,12 +236,7 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
         //Deleting the row from the database
         /*db.delete("alarms", "alarm_name=?", new String[]{"" + nameArrayList.get(position)});*/
         db.delete("alarms","hours=? AND minutes=?",new String[]{""+hoursArrayList.get(position),""+minArrayList.get(position)});
-
-        if (nameArrayList.get(position).equals("")) {
-            cancelAlarm(position, true, requestCode);
-        } else {
-            cancelAlarm(position, false, 0);
-        }
+        cancelAlarm(requestCode);
         //Now deleting those values from the mainActivity i.e., ArrayList
         hoursArrayList.remove(position);
         minArrayList.remove(position);
@@ -263,20 +271,12 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
             c.set(Calendar.SECOND, 0);
             if(c.getTimeInMillis() < System.currentTimeMillis())
                 c.add(Calendar.DAY_OF_YEAR,1);//run tomorrow
-            if (nameArrayList.get(position).equals("")) {
-                startAlarm(c,position,true,requestCode);
-            } else {
-                startAlarm(c,position,false,0);
-            }
+            startAlarm(c,modeArrayList.get(position),requestCode);
         }else{
             ContentValues values = new ContentValues();
             values.put(AlarmsDBhelperClass.ALARM_STATUS,"OFF");
             db.update("alarms",values,"alarm_name=?",new String[]{""+nameArrayList.get(position)});
-            if (nameArrayList.get(position).equals("")) {
-                cancelAlarm(position,true,requestCode);
-            } else {
-                cancelAlarm(position,false,0);
-            }
+            cancelAlarm(requestCode);
         }
     }
 
@@ -284,15 +284,15 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
     public void onModeClicked(int position,String m) {
     }
 
-    public void startAlarm(Calendar c,int position,boolean isQuick,int requestCode){
-        if (!isQuick) {
+    public void startAlarm(Calendar c,String mode,int requestCode){
+        if (!mode.equals("Q")) {
             //Getting a System service for the alarm to check the current time with the Alarm set time.
             AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
             //Creating an intent to invoke the onReceive method  in the custom receiver class, just to display notifications
             Intent intent = new Intent(getContext(), AlarmReceiver.class);
-            intent.putExtra("mode",modeArrayList.get(position));
+            intent.putExtra("mode",mode);
             //A pending intent is used to execute some work in the future with our applications permissions.
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(),requestCodes.get(position),intent,0);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(),requestCode,intent,0);
             //Now RTC_WAKEUP means if the device is Switched off turn it on.
             //getTimeInMillis() will get get the time in Milliseconds
             //Schedule an alarm to be delivered precisely at the stated time.In my case it's the calendar's getTimeMillis() method. which is providing the correct time in milliseconds.
@@ -300,24 +300,17 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
         } else {
             AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(getContext(), AlarmReceiver.class);
-            intent.putExtra("mode","quick");
+            intent.putExtra("mode",mode);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(),requestCode,intent,0);
             alarmManager.setExact(AlarmManager.RTC_WAKEUP,c.getTimeInMillis(),pendingIntent);
         }
     }
 
-    public void cancelAlarm(int position,boolean isQuick,int requestCode){
-        if (!isQuick) {
-            AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-            Intent intent = new Intent(getContext(), AlarmReceiver.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(),requestCodes.get(position),intent,0);
-            alarmManager.cancel(pendingIntent);
-        } else {
-            AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-            Intent intent = new Intent(getContext(), AlarmReceiver.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(),requestCode,intent,0);
-            alarmManager.cancel(pendingIntent);
-        }
+    private void cancelAlarm(int requestCode){
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getContext(), AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), requestCode, intent, 0);
+        alarmManager.cancel(pendingIntent);
     }
 
     @Override
@@ -333,6 +326,5 @@ public class HomeFragment extends Fragment implements AlarmRecyclerViewListener,
         quickMin = minute;
         Intent intent = new Intent(getContext(), RingtoneSelector.class);
         startActivityForResult(intent,FRAGMENT_HOME_REQUEST_CODE);
-
     }
 }

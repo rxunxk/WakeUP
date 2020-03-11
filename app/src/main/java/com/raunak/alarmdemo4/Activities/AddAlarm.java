@@ -22,9 +22,8 @@ import com.nex3z.togglebuttongroup.MultiSelectToggleGroup;
 import com.raunak.alarmdemo4.Fragments.ModeDialog;
 import com.raunak.alarmdemo4.HelperClasses.AlarmsDBhelperClass;
 import com.raunak.alarmdemo4.R;
-import com.subsub.library.BeautyButton;
-
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Set;
 
 public class AddAlarm extends AppCompatActivity implements ModeDialog.radioClickListener {
@@ -123,26 +122,24 @@ public class AddAlarm extends AppCompatActivity implements ModeDialog.radioClick
             }
         });
 
-        /*multi.setOnCheckedChangeListener(new MultiSelectToggleGroup.OnCheckedStateChangeListener() {
-            @Override
-            public void onCheckedStateChanged(MultiSelectToggleGroup group, int checkedId, boolean isChecked) {
-                Log.d("selected",""+ Arrays.toString(checkedIDArray));
-            }
-        });*/
-
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 name = edtLabel.getText().toString();
                 hours = hourPicker.getValue();
                 mins = minutePicker.getValue();
-
                 if (timeZonePicker.getValue() == 1){
                     helper.insertAlarm(name, mode, getRepeat(),songName, hours, mins,"ON","", db);
+
                 }else{
                     hours += 12;
                     helper.insertAlarm(name, mode, getRepeat(),songName, hours, mins,"ON","", db);
                 }
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("mode",mode);
+                resultIntent.putExtra("hours",hours);
+                resultIntent.putExtra("mins",mins);
+                setResult(RESULT_OK,resultIntent);
                 finish();
             }
         });
