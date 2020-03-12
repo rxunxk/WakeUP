@@ -10,6 +10,11 @@
     <string name="edtLabel">Alarm name</string>
     <string name="btnSave">Save</string>
     <string name="txtMinutes">00</string>
+    <string name="txtQuiz">Quiz Question</string>
+    <string name="btnOptionA">OPTION A</string>
+    <string name="btnOptionB">OPTION B</string>
+    <string name="btnOptionC">OPTION C</string>
+    <string name="btnOptionD">OPTION D</string>
     <string name="txtNoInternet">Oops, No Internet Connection</string>
     <string name="txtNoNetDescription">Make sure wifi or cellular data is turned on and then try again</string>
     <string name="btnTryAgin">TRY AGAIN</string>

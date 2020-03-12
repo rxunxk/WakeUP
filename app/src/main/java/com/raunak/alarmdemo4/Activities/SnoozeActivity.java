@@ -48,11 +48,8 @@ public class SnoozeActivity extends AppCompatActivity{
         Cursor cursor = db.rawQuery("SELECT "+AlarmsDBhelperClass.MUSIC_PATH+" FROM alarms WHERE "+AlarmsDBhelperClass.ALARM_HOURS+"=? AND "+AlarmsDBhelperClass.ALARM_MINS+"=?",new String[]{""+hour,""+min});
         if (cursor.moveToFirst()) {
             songPath = cursor.getString(cursor.getColumnIndex(AlarmsDBhelperClass.MUSIC_PATH));
-        }else{
-            Log.d("not working!","not working!");
         }
         cursor.close();
-        Log.d("",""+songPath);
         if(songPath.equals("song1")){
             mp = MediaPlayer.create(this, R.raw.alarm_tone1);
             mp.start();

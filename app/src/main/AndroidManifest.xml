@@ -23,8 +23,10 @@
         android:windowSoftInputMode="adjustPan|adjustResize"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup">
-        <activity android:name=".Activities.GameChaseTheBall"
-            android:launchMode="singleTask"/>
+        <activity android:name=".Activities.Quiz"></activity>
+        <activity
+            android:name=".Activities.GameChaseTheBall"
+            android:launchMode="singleTask" />
         <activity android:name=".Activities.RingtoneSelector" />
         <activity android:name=".Activities.SnoozeActivity" />
         <activity android:name=".Activities.ScreenShake" />

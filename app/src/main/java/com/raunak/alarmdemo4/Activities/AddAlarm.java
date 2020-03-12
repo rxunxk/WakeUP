@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
@@ -38,12 +39,13 @@ public class AddAlarm extends AppCompatActivity implements ModeDialog.radioClick
     String name, mode,songName;
     int hours, mins;
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_alarm);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         helper = new AlarmsDBhelperClass(this);
         db = helper.getReadableDatabase();
@@ -56,12 +58,15 @@ public class AddAlarm extends AppCompatActivity implements ModeDialog.radioClick
         btnTone = findViewById(R.id.btnTone);
         btnSave = findViewById(R.id.btnSave);
         nameArrayList = new ArrayList<>();
+        Calendar c = Calendar.getInstance();
 
         hourPicker.setMaxValue(12);
         hourPicker.setMinValue(0);
+        hourPicker.setValue(c.get(Calendar.HOUR));
 
         minutePicker.setMaxValue(59);
         minutePicker.setMinValue(0);
+        minutePicker.setValue(c.get(Calendar.MINUTE));
 
         timeZonePicker.setMaxValue(2);
         timeZonePicker.setMinValue(1);

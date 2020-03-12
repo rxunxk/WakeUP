@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/txtQuiz"
+        android:layout_margin="20sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="30sp"
+        android:fontFamily="@font/open_sans"
+        android:text="@string/txtQuiz"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5dp"
+        android:orientation="vertical">
+
+        <Button
+            style="@style/quizButtons"
+            android:fontFamily="@font/open_sans"
+            android:textStyle="normal"
+            android:layout_margin="10dp"
+            android:id="@+id/btnOptionA"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btnOptionA"/>
+
+        <Button
+            style="@style/quizButtons"
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/btnOptionB"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btnOptionB"/>
+
+        <Button
+            android:id="@+id/btnOptionC"
+            android:fontFamily="@font/open_sans"
+            style="@style/quizButtons"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btnOptionC"/>
+
+        <Button
+            android:id="@+id/btnOptionD"
+            style="@style/quizButtons"
+            android:fontFamily="@font/open_sans"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btnOptionD"/>
+    </LinearLayout>
+
+
+</RelativeLayout>
