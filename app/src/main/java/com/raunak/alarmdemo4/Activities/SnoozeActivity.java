@@ -2,12 +2,15 @@ package com.raunak.alarmdemo4.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.widget.Toast;
 import com.arbelkilani.clock.Clock;
 import com.ebanx.swipebtn.OnStateChangeListener;
@@ -77,4 +80,31 @@ public class SnoozeActivity extends AppCompatActivity{
             }
         });
     }
+
+    //Now overriding the physical buttons so the user can't escape XD.
+    //Recents Button
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ActivityManager activityManager = (ActivityManager) getApplicationContext()
+                .getSystemService(Context.ACTIVITY_SERVICE);
+        activityManager.moveTaskToFront(getTaskId(), 0);
+    }
+    //Back Button
+    @Override
+    public void onBackPressed() {
+    }
+
+    //Volume buttons
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
+            mp.setVolume(1.0f,1.0f);
+            return true;
+        }else if(keyCode == KeyEvent.KEYCODE_VOLUME_UP){
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

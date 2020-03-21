@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -252,6 +253,20 @@ public class Quiz extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
+            mp.setVolume(1.0f,1.0f);
+            return true;
+        }else if(keyCode == KeyEvent.KEYCODE_VOLUME_UP){
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     public void getAlarm(SQLiteDatabase db){
         Cursor c = db.rawQuery("SELECT * FROM "+AlarmsDBhelperClass.TABLE_QUESTION,new String[]{});
