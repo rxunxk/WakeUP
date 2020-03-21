@@ -19,6 +19,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import android.widget.ScrollView;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.nex3z.togglebuttongroup.MultiSelectToggleGroup;
 import com.raunak.alarmdemo4.Fragments.ModeDialog;
 import com.raunak.alarmdemo4.HelperClasses.AlarmsDBhelperClass;
@@ -38,6 +41,7 @@ public class AddAlarm extends AppCompatActivity implements ModeDialog.radioClick
     //variables for storing values in the database
     String name, mode,songName;
     int hours, mins;
+    ScrollView sv;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @RequiresApi(api = Build.VERSION_CODES.Q)
@@ -58,6 +62,7 @@ public class AddAlarm extends AppCompatActivity implements ModeDialog.radioClick
         btnTone = findViewById(R.id.btnTone);
         btnSave = findViewById(R.id.btnSave);
         nameArrayList = new ArrayList<>();
+        sv = findViewById(R.id.mainLayout);
         Calendar c = Calendar.getInstance();
 
         hourPicker.setMaxValue(12);
