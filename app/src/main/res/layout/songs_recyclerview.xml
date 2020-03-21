@@ -11,10 +11,12 @@
         android:singleLine="true"
         android:ellipsize="marquee"
         android:fadingEdge="horizontal"
+        android:fontFamily="@font/open_sans"
         android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/txtSongs"
         android:textSize="20sp" />
+
 </RelativeLayout>

@@ -19,8 +19,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Menu;
-import android.view.MenuItem;import android.widget.Toast;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.raunak.alarmdemo4.Adapters.SongsAdapter;
+import com.raunak.alarmdemo4.HelperClasses.DelayGenerator;
 import com.raunak.alarmdemo4.Interfaces.SongSelectorInterface;
 import com.raunak.alarmdemo4.R;
 import java.util.ArrayList;
@@ -30,11 +35,14 @@ public class RingtoneSelector extends AppCompatActivity implements SongSelectorI
     ArrayList<String> songNameArrayList,pathArrayList;
     RecyclerView recyclerView;
     SongsAdapter songsAdapter;
+    private ShimmerFrameLayout mShimmerViewContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ringtonee_selector);
+
+        mShimmerViewContainer = findViewById(R.id.shimmer_songs_container);
 
         getSupportActionBar().setTitle("Alarm tone");
         if(ContextCompat.checkSelfPermission(getApplicationContext(),Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
@@ -95,6 +103,7 @@ public class RingtoneSelector extends AppCompatActivity implements SongSelectorI
         songNameArrayList.add("Default song 2");
         pathArrayList.add("song1");
         pathArrayList.add("song2");
+
         songsAdapter = new SongsAdapter(songNameArrayList,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(songsAdapter);
@@ -120,6 +129,14 @@ public class RingtoneSelector extends AppCompatActivity implements SongSelectorI
                 pathArrayList.add(currentPath);
             }while (cursor.moveToNext());
         }
+        DelayGenerator.delay(1, new DelayGenerator.DelayCallback() {
+            @Override
+            public void afterDelay() {
+                mShimmerViewContainer.stopShimmerAnimation();
+                mShimmerViewContainer.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
@@ -141,5 +158,16 @@ public class RingtoneSelector extends AppCompatActivity implements SongSelectorI
         setResult(RESULT_OK,resultIntent);
         Toast.makeText(getApplicationContext(), ""+songNameArrayList.get(position), Toast.LENGTH_SHORT).show();
         finish();
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        mShimmerViewContainer.startShimmerAnimation();
+    }
+
+    @Override
+    protected void onPause() {
+        mShimmerViewContainer.stopShimmerAnimation();
+        super.onPause();
     }
 }
