@@ -1,146 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:onClick="hideKeyboard"
-    android:padding="16dp">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
        <LinearLayout
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:gravity="center"
-           android:orientation="horizontal">
+           android:onClick="hideKeyboard"
+           android:orientation="vertical"
+           android:padding="16dp">
 
-              <NumberPicker
-                  android:id="@+id/hoursPicker"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_marginEnd="8dp" />
-
-              <TextView
-                  android:id="@+id/colon"
-                  android:layout_width="wrap_content"
-                  android:layout_height="180dp"
-                  android:gravity="center"
-                  android:text="@string/txtColon"
-                  android:textSize="50sp" />
-
-              <NumberPicker
-                  android:id="@+id/minutesPicker"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_marginStart="8dp" />
-
-              <NumberPicker
-                  android:id="@+id/timeZonePicker"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_marginStart="25dp" />
-
-       </LinearLayout>
-
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:layout_gravity="center_horizontal"
-           android:gravity="center"
-           android:orientation="vertical">
-
-              <LinearLayout
+              <androidx.cardview.widget.CardView
                   android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:gravity="center"
-                  android:layout_marginBottom="10dp"
-                  android:orientation="horizontal">
+                  android:layout_height="wrap_content"
+                  app:cardCornerRadius="5dp">
 
-                     <EditText
-                         android:id="@+id/edtLabel"
-                         android:fontFamily="@font/open_sans"
-                         android:layout_width="wrap_content"
+                     <TextView
+                         android:padding="5dp"
+                         android:layout_width="match_parent"
                          android:layout_height="wrap_content"
-                         android:ems="10"
-                         android:gravity="center"
-                         android:hapticFeedbackEnabled="false"
-                         android:hint="@string/edtLabel"
-                         android:inputType="textPersonName" />
-
-              </LinearLayout>
-
-              <com.nex3z.togglebuttongroup.MultiSelectToggleGroup
-                  android:id="@+id/repeat"
+                         android:layout_marginBottom="5dp"
+                         android:fontFamily="@font/open_sans"
+                         android:text="Select Time:" />
+              </androidx.cardview.widget.CardView>
+              <androidx.cardview.widget.CardView
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:layout_marginBottom="10dp"
-                  app:tbgChildSpacing="auto">
+                  app:cardCornerRadius="5dp">
 
-              <com.nex3z.togglebuttongroup.button.CircularToggle
-                  android:id="@+id/sun"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="S"/>
+                     <LinearLayout
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:padding="2dp"
+                         android:gravity="center"
+                         android:orientation="horizontal">
 
-              <com.nex3z.togglebuttongroup.button.CircularToggle
-                  android:id="@+id/mon"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="M"/>
+                            <NumberPicker
+                                android:id="@+id/hoursPicker"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp" />
 
-              <com.nex3z.togglebuttongroup.button.CircularToggle
-                  android:id="@+id/tue"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="T"/>
+                            <TextView
+                                android:id="@+id/colon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="180dp"
+                                android:gravity="center"
+                                android:text="@string/txtColon"
+                                android:textSize="50sp" />
 
-              <com.nex3z.togglebuttongroup.button.CircularToggle
-                  android:id="@+id/wed"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="W"/>
+                            <NumberPicker
+                                android:id="@+id/minutesPicker"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp" />
 
-              <com.nex3z.togglebuttongroup.button.CircularToggle
-                  android:id="@+id/thu"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="T"/>
+                            <NumberPicker
+                                android:id="@+id/timeZonePicker"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="25dp" />
 
-              <com.nex3z.togglebuttongroup.button.CircularToggle
-                  android:id="@+id/fri"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="F"/>
+                     </LinearLayout>
+              </androidx.cardview.widget.CardView>
 
-              <com.nex3z.togglebuttongroup.button.CircularToggle
-                  android:id="@+id/sat"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="S"/>
-              </com.nex3z.togglebuttongroup.MultiSelectToggleGroup>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
 
-              <Button
-                  android:id="@+id/mode"
-                  android:fontFamily="@font/open_sans"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="@string/btnMode" />
+               <androidx.cardview.widget.CardView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="10dp"
+                   app:cardCornerRadius="5dp">
 
-              <Button
-                  android:id="@+id/btnTone"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:fontFamily="@font/open_sans"
-                  android:text="@string/btnTone" />
+                      <TextView
+                          android:padding="5dp"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_marginBottom="5dp"
+                          android:fontFamily="@font/open_sans"
+                          android:text="Alarm Label :" />
+               </androidx.cardview.widget.CardView>
 
-              <Button
-                  android:id="@+id/btnSave"
-                  android:layout_width="170dp"
-                  android:layout_height="wrap_content"
-                  android:layout_margin="16dp"
-                  android:text="@string/btnSave"
-                  android:fontFamily="@font/open_sans"
-                  android:textColor="#FFFFFF"/>
+               <androidx.cardview.widget.CardView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   app:cardCornerRadius="5dp">
+                      <EditText
+                          android:id="@+id/edtLabel"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:ems="10"
+                          android:fontFamily="@font/open_sans"
+                          android:gravity="center"
+                          android:hapticFeedbackEnabled="false"
+                          android:hint="@string/edtLabel"
+                          android:inputType="textPersonName" />
+               </androidx.cardview.widget.CardView>
 
-       </LinearLayout>
+               <androidx.cardview.widget.CardView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="10dp"
+                   app:cardCornerRadius="5dp">
 
-</LinearLayout>
+                      <TextView
+                          android:padding="5dp"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_marginBottom="5dp"
+                          android:fontFamily="@font/open_sans"
+                          android:text="Select Repeat Days:" />
+               </androidx.cardview.widget.CardView>
+
+               <androidx.cardview.widget.CardView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   app:cardCornerRadius="5dp">
+
+                      <com.nex3z.togglebuttongroup.MultiSelectToggleGroup
+                          android:id="@+id/repeat"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_marginBottom="10dp"
+                          app:tbgChildSpacing="auto">
+
+                             <com.nex3z.togglebuttongroup.button.CircularToggle
+                                 android:id="@+id/sun"
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:text="S" />
+
+                             <com.nex3z.togglebuttongroup.button.CircularToggle
+                                 android:id="@+id/mon"
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:text="M" />
+
+                             <com.nex3z.togglebuttongroup.button.CircularToggle
+                                 android:id="@+id/tue"
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:text="T" />
+
+                             <com.nex3z.togglebuttongroup.button.CircularToggle
+                                 android:id="@+id/wed"
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:text="W" />
+
+                             <com.nex3z.togglebuttongroup.button.CircularToggle
+                                 android:id="@+id/thu"
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:text="T" />
+
+                             <com.nex3z.togglebuttongroup.button.CircularToggle
+                                 android:id="@+id/fri"
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:text="F" />
+
+                             <com.nex3z.togglebuttongroup.button.CircularToggle
+                                 android:id="@+id/sat"
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:text="S" />
+                      </com.nex3z.togglebuttongroup.MultiSelectToggleGroup>
+               </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/mode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_bg"
+                android:textColor="#FFFFFF"
+                android:text="@string/btnMode" />
+
+            <Button
+                android:id="@+id/btnTone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_bg"
+                android:textColor="#FFFFFF"
+                android:text="@string/btnTone" />
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/quiz_correct_background"
+                android:textColor="#FFFFFF"
+                android:text="@string/btnSave" />
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
