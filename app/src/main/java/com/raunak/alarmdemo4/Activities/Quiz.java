@@ -41,8 +41,7 @@ public class Quiz extends AppCompatActivity {
     String songPath,answer;
     int hour,min;
     Random random;
-    int correctColor = Color.parseColor("#03a685");
-    int wrongColor = Color.parseColor("#ff9191");
+    int whiteColor = Color.parseColor("#FFFFFF");
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -101,7 +100,7 @@ public class Quiz extends AppCompatActivity {
             public void onClick(View v) {
                 if (btnOptionA.getText().equals(answer)){
                     btnOptionA.setBackgroundResource(R.drawable.quiz_correct_background);
-                    btnOptionA.setTextColor(correctColor);
+                    btnOptionA.setTextColor(whiteColor);
                     score++;
                     DelayGenerator.delay(delayInterval, new DelayGenerator.DelayCallback() {
                         @Override
@@ -113,7 +112,7 @@ public class Quiz extends AppCompatActivity {
                     });
                 }else{
                     btnOptionA.setBackgroundResource(R.drawable.quiz_wrong_background);
-                    btnOptionA.setTextColor(wrongColor);
+                    btnOptionA.setTextColor(whiteColor);
                     btnOptionA.startAnimation(shake);
                     DelayGenerator.delay(delayInterval, new DelayGenerator.DelayCallback() {
                         @Override
@@ -140,7 +139,7 @@ public class Quiz extends AppCompatActivity {
             public void onClick(View v) {
                 if (btnOptionB.getText().equals(answer)){
                     btnOptionB.setBackgroundResource(R.drawable.quiz_correct_background);
-                    btnOptionB.setTextColor(correctColor);
+                    btnOptionB.setTextColor(whiteColor);
                     score++;
                     DelayGenerator.delay(delayInterval, new DelayGenerator.DelayCallback() {
                         @Override
@@ -152,7 +151,7 @@ public class Quiz extends AppCompatActivity {
                     });
                 }else{
                     btnOptionB.setBackgroundResource(R.drawable.quiz_wrong_background);
-                    btnOptionB.setTextColor(wrongColor);
+                    btnOptionB.setTextColor(whiteColor);
                     btnOptionB.startAnimation(shake);
                     DelayGenerator.delay(delayInterval, new DelayGenerator.DelayCallback() {
                         @Override
@@ -179,7 +178,7 @@ public class Quiz extends AppCompatActivity {
             public void onClick(View v) {
                 if (btnOptionC.getText().equals(answer)){
                     btnOptionC.setBackgroundResource(R.drawable.quiz_correct_background);
-                    btnOptionC.setTextColor(correctColor);
+                    btnOptionC.setTextColor(whiteColor);
                     score++;
                     DelayGenerator.delay(delayInterval, new DelayGenerator.DelayCallback() {
                         @Override
@@ -191,7 +190,7 @@ public class Quiz extends AppCompatActivity {
                     });
                 }else{
                     btnOptionC.setBackgroundResource(R.drawable.quiz_wrong_background);
-                    btnOptionC.setTextColor(wrongColor);
+                    btnOptionC.setTextColor(whiteColor);
                     btnOptionC.startAnimation(shake);
                     DelayGenerator.delay(delayInterval, new DelayGenerator.DelayCallback() {
                         @Override
@@ -218,7 +217,7 @@ public class Quiz extends AppCompatActivity {
             public void onClick(View v) {
                 if (btnOptionD.getText().equals(answer)){
                     btnOptionD.setBackgroundResource(R.drawable.quiz_correct_background);
-                    btnOptionD.setTextColor(correctColor);
+                    btnOptionD.setTextColor(whiteColor);
                     score++;
                     DelayGenerator.delay(delayInterval, new DelayGenerator.DelayCallback() {
                         @Override
@@ -230,7 +229,7 @@ public class Quiz extends AppCompatActivity {
                     });
                 }else{
                     btnOptionD.setBackgroundResource(R.drawable.quiz_wrong_background);
-                    btnOptionD.setTextColor(wrongColor);
+                    btnOptionD.setTextColor(whiteColor);
                     btnOptionD.setAnimation(shake);
                     DelayGenerator.delay(delayInterval, new DelayGenerator.DelayCallback() {
                         @Override

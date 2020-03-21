@@ -30,7 +30,6 @@ public class AlarmsDBhelperClass extends SQLiteOpenHelper {
     //Default Constructor
     public AlarmsDBhelperClass(Context context) {
         super(context, DBNAME, null, VERSION);
-//        databasePath = context.getDatabasePath("wl.db").getPath();
     }
 
     //Overriding methods of the parent class
