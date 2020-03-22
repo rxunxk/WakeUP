@@ -190,7 +190,6 @@ public class AddAlarm extends AppCompatActivity implements ModeDialog.radioClick
         StringBuilder sb = new StringBuilder();
         Set<Integer> set = multi.getCheckedIds();
         for (Integer integer : set) {
-            Log.d("OK","individual repeat: "+integer.toString());
             switch (integer) {
                 case 2131362123:
                     sb.append("SUN ");
@@ -217,7 +216,6 @@ public class AddAlarm extends AppCompatActivity implements ModeDialog.radioClick
                     break;
             }
         }
-        Log.d("OK","final string op:"+sb.toString());
         return sb.toString();
     }
 }

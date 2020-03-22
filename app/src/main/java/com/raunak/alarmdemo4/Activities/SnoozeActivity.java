@@ -12,6 +12,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 import com.arbelkilani.clock.Clock;
 import com.ebanx.swipebtn.OnStateChangeListener;
@@ -39,6 +40,7 @@ public class SnoozeActivity extends AppCompatActivity{
         getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_snooze);
+        //Making the activity go full screen.
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         decorView = getWindow().getDecorView();
         decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
@@ -49,6 +51,11 @@ public class SnoozeActivity extends AppCompatActivity{
                 }
             }
         });
+        //to show activity on lockScreen.
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON|
+                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD|
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED|
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
         Calendar c = Calendar.getInstance();
         hour = c.get(Calendar.HOUR_OF_DAY);
