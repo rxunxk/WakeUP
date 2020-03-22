@@ -138,12 +138,13 @@ public class AddAlarm extends AppCompatActivity implements ModeDialog.radioClick
                 name = edtLabel.getText().toString();
                 hours = hourPicker.getValue();
                 mins = minutePicker.getValue();
+                String repeat = getRepeat();
                 if (timeZonePicker.getValue() == 1){
-                    helper.insertAlarm(name, mode, getRepeat(),songName, hours, mins,"ON","", db);
+                    helper.insertAlarm(name, mode,repeat,songName, hours, mins,"ON","", db);
 
                 }else{
                     hours += 12;
-                    helper.insertAlarm(name, mode, getRepeat(),songName, hours, mins,"ON","", db);
+                    helper.insertAlarm(name, mode,repeat,songName, hours, mins,"ON","", db);
                 }
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("mode",mode);
@@ -188,35 +189,35 @@ public class AddAlarm extends AppCompatActivity implements ModeDialog.radioClick
     public String getRepeat(){
         StringBuilder sb = new StringBuilder();
         Set<Integer> set = multi.getCheckedIds();
-        Integer[] checkedIDArray = set.toArray(new Integer[set.size()]);
-        for (int i = 0 ; i < checkedIDArray.length ; i++ ){
-            switch(checkedIDArray[i]){
-                case 2131362109:
+        for (Integer integer : set) {
+            Log.d("OK","individual repeat: "+integer.toString());
+            switch (integer) {
+                case 2131362123:
                     sb.append("SUN ");
                     break;
-                case 2131361988:
+                case 2131361998:
                     sb.append("MON ");
                     break;
-                case 2131362148:
+                case 2131362162:
                     sb.append("TUE ");
                     break;
-                case 2131362173:
+                case 2131362188:
                     sb.append("WED ");
                     break;
-                case 2131362133:
+                case 2131362147:
                     sb.append("THU ");
                     break;
-                case 2131361945:
+                case 2131361953:
                     sb.append("FRI ");
                     break;
-                case 2131362059:
+                case 2131362072:
                     sb.append("SAT ");
                     break;
                 default:
                     break;
             }
         }
-        String s = sb.toString();
-        return s;
+        Log.d("OK","final string op:"+sb.toString());
+        return sb.toString();
     }
 }
